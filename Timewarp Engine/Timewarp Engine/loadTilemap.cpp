@@ -5,7 +5,7 @@
 #include <TIMEWARP ENGINE\loadTilemap.h>
 
 std::vector<std::vector<int>> loadLevel(int levelID) {
-    const std::string filename = "levels/" + std::to_string(levelID) + "/tilemap.txt";
+    const std::string filename = "src/levels/" + std::to_string(levelID) + "/tilemap.txt";
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
