@@ -143,8 +143,12 @@
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="src\levels\0\tilemap.txt" />
+    <Text Include="src\shaders\fragment_shader.txt" />
+    <Text Include="src\shaders\vertex_shader.txt" />
     <Text Include="testFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
