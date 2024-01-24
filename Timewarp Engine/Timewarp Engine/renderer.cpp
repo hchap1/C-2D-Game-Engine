@@ -246,7 +246,7 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     basic_shader.setFloat("cameraX", playerX);
     basic_shader.setFloat("cameraY", playerY);
 
-    glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));

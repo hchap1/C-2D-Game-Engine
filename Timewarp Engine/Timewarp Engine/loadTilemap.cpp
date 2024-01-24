@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <TIMEWARP ENGINE\loadTilemap.h>
+#include <algorithm>
 
 std::vector<std::vector<float>> loadLevel(int levelID) {
     const std::string filename = "src/levels/" + std::to_string(levelID) + "/tilemap.txt";
@@ -27,6 +28,9 @@ std::vector<std::vector<float>> loadLevel(int levelID) {
     }
 
     file.close();
+
+    std::reverse(tilemap.begin(), tilemap.end());
+        
 
     return tilemap;
 }
