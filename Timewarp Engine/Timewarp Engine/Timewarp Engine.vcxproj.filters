@@ -47,8 +47,14 @@
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="testFile.txt" />
+    <Text Include="src\levels\0\tilemap.txt" />
+    <Text Include="src\shaders\vertex_shader.txt" />
+    <Text Include="src\shaders\fragment_shader.txt" />
   </ItemGroup>
 </Project>
