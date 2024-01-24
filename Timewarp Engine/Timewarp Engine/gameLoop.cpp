@@ -3,16 +3,33 @@
 #include <vector>
 #include <TIMEWARP ENGINE\renderer.h>
 #include <SHADER CLASS\shader.h>
+#include <GLFW\glfw3.h>
 using namespace std;
 
 int main() {
-	Shader basic_shader("src/shaders/vertex_shader.txt", "src/shaders/fragment_shader.txt");
-	basic_shader.use();
+	float deltaTime;
 	float playerX = 0.0f;
+	float playerY = 0.0f;
 	int success = rendererInit();
-	vector<vector<int>> tilemap = loadLevel(0);
+	Shader basic_shader = makeShader();
+	
+	vector<vector<float>> tilemap = loadLevel(0);
+
+	updateTilemap(tilemap);
+
 	while (true) {
-		playerX += 0.01f;
-		render(tilemap, playerX, 0.5f, basic_shader);
+		deltaTime = render(tilemap, playerX, playerY, basic_shader);
+		if (getKey(GLFW_KEY_W)) {
+			playerY += deltaTime;
+		}
+		if (getKey(GLFW_KEY_S)) {
+			playerY -= deltaTime;
+		}
+		if (getKey(GLFW_KEY_D)) {
+			playerX += deltaTime;
+		}
+		if (getKey(GLFW_KEY_A)) {
+			playerX -= deltaTime;
+		}
 	}
 }

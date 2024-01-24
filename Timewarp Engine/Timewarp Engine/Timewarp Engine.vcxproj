@@ -133,6 +133,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="loadTilemap.cpp" />
+    <ClCompile Include="testing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -142,6 +143,7 @@
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
+    <ClInclude Include="include\STB\stb_image.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
@@ -150,6 +152,12 @@
     <Text Include="src\shaders\fragment_shader.txt" />
     <Text Include="src\shaders\vertex_shader.txt" />
     <Text Include="testFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\textures\blocks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\textures\blocks.ase" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,6 +27,9 @@
     <ClCompile Include="gameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -50,11 +53,22 @@
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\STB\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="testFile.txt" />
     <Text Include="src\levels\0\tilemap.txt" />
     <Text Include="src\shaders\vertex_shader.txt" />
     <Text Include="src\shaders\fragment_shader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\textures\blocks.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\textures\blocks.ase" />
   </ItemGroup>
 </Project>
