@@ -7,6 +7,7 @@
 #include <SHADER CLASS\shader.h>
 #include <utility>
 #include <STB\stb_image.h>
+#include <TIMEWARP ENGINE\gameLoop.h>
 
 unsigned int blockTexture;
 
@@ -151,6 +152,8 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     glfwGetWindowSize(window, &width, &height);
     float xMult = 100.0f / width;
     float yMult = 100.0f / height;
+
+    setBlockSize(xMult, yMult, width, height);
 
     // Allocate a dynamic array
     float* flattenedArray = new float[totalSize];

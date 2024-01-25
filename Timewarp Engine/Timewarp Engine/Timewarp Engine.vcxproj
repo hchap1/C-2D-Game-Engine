@@ -144,6 +144,7 @@
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\STB\stb_image.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
@@ -154,10 +155,10 @@
     <Text Include="testFile.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\textures\blocks.png" />
+    <None Include="src\textures\blocks.ase" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\textures\blocks.ase" />
+    <Image Include="src\textures\blocks.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

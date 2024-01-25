@@ -11,5 +11,5 @@ uniform float cameraY;
 
 void main(){
 	gl_Position = vec4(aPos.x + cameraX, aPos.y + cameraY, aPos.z, 1.0);
-	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 4) + (0.75 - (blockID / 4)));
+	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 8) + (0.875 - (blockID / 8)));
 }

@@ -9,9 +9,21 @@
 
 using namespace std;
 
-float targetFps = 60.0f;
+float targetFps = 120.0f;
 float msPerFrame;
-bool doFrameCap = false;
+bool doFrameCap = true;
+
+float blockX;
+float blockY;
+float width;
+float height;
+
+void setBlockSize(float bx, float by, float w, float h) {
+	blockX = bx;
+	blockY = by;
+	width = w;
+	height = h;
+}
 
 int main() {
 	msPerFrame = 1 / targetFps;
@@ -20,8 +32,8 @@ int main() {
 	float playerXVelocity = 0.0f;
 	float playerYVelocity = 0.0f;
 
-	float playerX = 0.0f;
-	float playerY = 0.0f;
+	float playerX = 0;
+	float playerY = 0;
 
 	int success = rendererInit();
 	Shader basic_shader = makeShader();
@@ -30,6 +42,7 @@ int main() {
 	float movementMultiplier, fps;
 
 	updateTilemap(tilemap);
+	glfwSwapInterval(1);
 
 	while (true) {
 		deltaTime = render(tilemap, playerX, playerY, basic_shader);
@@ -46,20 +59,24 @@ int main() {
 		if (getKey(GLFW_KEY_A)) {
 			playerXVelocity += movementMultiplier;
 		}
+
+		int px = static_cast<int>(playerX * 10.0f);
+
+		//tilemap[px][0] = 0.3f;
+		//updateTilemap(tilemap);
 		
-		playerX += playerXVelocity * movementMultiplier * 1000;
+		playerX += playerXVelocity * movementMultiplier;
+		playerXVelocity *= 0.9f;
+
+		playerY += playerYVelocity * movementMultiplier;
+		//playerYVelocity += deltaTime * 5.0f;
 
 		fps = 1 / deltaTime;
-		playerXVelocity /= (fps * 0.1);
-		if (fps > targetFps && doFrameCap) {
 
-			int timeDif = static_cast<int>((msPerFrame - deltaTime) * 1000.0f);
+		int blocksOnHalfScreen = static_cast<int>(1 / blockX);
+		int indexOfFirstBlock = static_cast<int>(playerX * (blocksOnHalfScreen * 2));
 
-			std::chrono::milliseconds durationToWait(timeDif);
-			std::this_thread::sleep_for(durationToWait);
-		}
-
-		std::cout << "FPS: " << 4000 + fps << std::endl;
+		std::cout << "INDEX: " << indexOfFirstBlock << std::endl;
 		
 	}
 }

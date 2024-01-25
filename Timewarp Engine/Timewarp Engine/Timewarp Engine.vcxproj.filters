@@ -56,6 +56,9 @@
     <ClInclude Include="include\STB\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="testFile.txt" />
@@ -64,11 +67,11 @@
     <Text Include="src\shaders\fragment_shader.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\textures\blocks.ase" />
+  </ItemGroup>
+  <ItemGroup>
     <Image Include="src\textures\blocks.png">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\textures\blocks.ase" />
   </ItemGroup>
 </Project>
