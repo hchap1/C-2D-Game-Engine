@@ -32,8 +32,8 @@ int main() {
 	float playerXVelocity = 0.0f;
 	float playerYVelocity = 0.0f;
 
-	float playerX = 0;
-	float playerY = 0;
+	float playerX = -1.0f;
+	float playerY = -3.0f;
 
 	int success = rendererInit();
 	Shader basic_shader = makeShader();
@@ -73,10 +73,19 @@ int main() {
 
 		fps = 1 / deltaTime;
 
-		int blocksOnHalfScreen = static_cast<int>(1 / blockX);
-		int indexOfFirstBlock = static_cast<int>(playerX * (blocksOnHalfScreen * 2));
+		int blocksOnHalfScreenX = static_cast<int>(1 / blockX);
+		int indexOfFirstBlockX = static_cast<int>(playerX * (blocksOnHalfScreenX * -1));
 
-		std::cout << "INDEX: " << indexOfFirstBlock << std::endl;
+		int blocksOnHalfScreenY = static_cast<int>(1 / blockY);
+		int indexOfFirstBlockY = static_cast<int>(playerY * (blocksOnHalfScreenY * -1));
+
+		std::cout << "BLOCK POS: " << blockY * indexOfFirstBlockY << "    PLAYER POS: " << playerY << std::endl;
+
+		playerY = blockY * indexOfFirstBlockY * -1;
+
+		updateTilemap(tilemap);
+
+		
 		
 	}
 }
