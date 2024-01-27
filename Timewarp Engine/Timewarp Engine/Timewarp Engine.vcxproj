@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gameLoop.cpp" />
+    <ClCompile Include="gameState.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="loadTilemap.cpp" />

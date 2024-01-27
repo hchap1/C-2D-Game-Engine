@@ -145,7 +145,7 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     // Calculate the total size needed for the flat array
     size_t totalSize = 0;
     for (const auto& row : inputVector) {
-        totalSize += row.size() * 36;
+        totalSize += row.size() * 36 + 36;
     }
 
     int width, height;
@@ -218,6 +218,56 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
         y++;
         x = 0;
     }
+
+    //Bottom left
+    flattenedArray[index++] = xMult * -0.5f;
+    flattenedArray[index++] = -yMult;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 0.0f;
+    flattenedArray[index++] = 0.0f;
+    flattenedArray[index++] = 4.0f;
+
+    //Top left
+    flattenedArray[index++] = xMult * -0.5f;
+    flattenedArray[index++] = yMult;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 0.0f;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 4.0f;
+
+    //Top right
+    flattenedArray[index++] = xMult * 0.5f;
+    flattenedArray[index++] = yMult;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 4.0f;
+
+    //Bottom left
+    flattenedArray[index++] = xMult * -0.5f;
+    flattenedArray[index++] = -yMult;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 0.0f;
+    flattenedArray[index++] = 0.0f;
+    flattenedArray[index++] = 4.0f;
+
+    //Bottom right
+    flattenedArray[index++] = xMult * 0.5f;
+    flattenedArray[index++] = -yMult;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 0.0f;
+    flattenedArray[index++] = 4.0f;
+
+    //Top right
+    flattenedArray[index++] = xMult * 0.5f;
+    flattenedArray[index++] = yMult;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 1.0f;
+    flattenedArray[index++] = 4.0f;
+    
+    numOfTriangles += 2;
 
     return { flattenedArray, numOfTriangles };
 }
