@@ -20,10 +20,59 @@ float height;
 
 bool grounded = false;
 bool dashing = false;
+
+bool canDash = true;
+
 int dashEnd = 0;
 int gameTime = 0;
+int latestTimeReached = 0;
+int timeForTimeWarpRefresh = 0;
 
 int dashDirection = 0;
+
+using namespace std;
+
+class gameState {
+public:
+
+	gameState() {
+
+	}
+
+	gameState(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> isCrouching)
+		: playerXPositions(pXP), playerYPositions(pYP), crouching(isCrouching) {
+	}
+
+	void addPosition(float px, float py, bool isCrouching) {
+		playerXPositions.push_back(px);
+		playerYPositions.push_back(py);
+		crouching.push_back(isCrouching);
+	}
+
+	void flipMostRecentPosition() {
+		playerXPositions.back() *= -1;
+		playerYPositions.back() *= -1;
+	}
+
+	std::vector<float> getXData() {
+		return playerXPositions;
+	}
+
+	std::vector<float> getYData() {
+		return playerYPositions;
+	}
+
+	std::vector<bool> getCrouching() {
+		return crouching;
+	}
+
+private:
+	std::vector<float> playerXPositions;
+	std::vector<float> playerYPositions;
+	std::vector<bool> crouching;
+};
+
+std::vector<gameState> timeline;
 
 void setBlockSize(float bx, float by, float w, float h) {
 	blockX = bx;
@@ -39,6 +88,9 @@ int main() {
 	float playerXVelocity = 0.0f;
 	float playerYVelocity = 0.0f;
 
+	canDash = true;
+	bool crouching = false;
+
 	float playerX = -1.0f;
 	float playerY = -3.5f;
 
@@ -48,12 +100,43 @@ int main() {
 	vector<vector<float>> tilemap = loadLevel(0);
 	float movementMultiplier, fps;
 
-	updateTilemap(tilemap);
+	//updateTilemap(tilemap);
 	glfwSwapInterval(1);
 
 	while (true) {
-		deltaTime = render(tilemap, playerX, playerY, basic_shader);
 		gameTime += 1;
+		if (gameTime > latestTimeReached) {
+			latestTimeReached = gameTime;
+		}
+
+		gameState currentGameState;
+
+		//Only create a new gamestate if we are not in the past
+		if (gameTime == latestTimeReached) {
+			std::vector<float> packagedX;
+			std::vector<float> packagedY;
+			std::vector<bool> packagedCrouching;
+
+			packagedX.push_back(playerX);
+			packagedY.push_back(playerY);
+			packagedCrouching.push_back(crouching);
+
+			currentGameState = gameState(packagedX, packagedY, packagedCrouching);
+		}
+
+		else {
+			timeline[gameTime].addPosition(playerX, playerY, crouching);
+			currentGameState = timeline[gameTime];
+		}
+
+		std::vector<float> playerSpriteXPositions = currentGameState.getXData();
+		std::vector<float> playerSpriteYPositions = currentGameState.getYData();
+		std::vector<bool> playerCrouchingVector = currentGameState.getCrouching();
+		deltaTime = render(tilemap, playerX, playerY, basic_shader, playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
+
+		//Flip most recent position
+		//currentGameState.flipMostRecentPosition();
+		timeline.push_back(currentGameState);
 
 		if (dashEnd > gameTime) {
 			dashing = true;
@@ -72,7 +155,16 @@ int main() {
 				playerXVelocity += movementMultiplier;
 			}
 			if (getKey(GLFW_KEY_APOSTROPHE)) {
-				dashEnd = gameTime + 20;
+				dashEnd = gameTime + 15;
+			}
+			if (getKey(GLFW_KEY_T) && gameTime >= timeForTimeWarpRefresh) {
+				gameTime -= 200;
+				float newX = timeline[gameTime].getXData()[0];
+				float newY = timeline[gameTime].getYData()[0];
+				dashEnd = 0;
+				playerX = newX;
+				playerY = newY;
+				timeForTimeWarpRefresh = gameTime + 200;
 			}
 		}
 
@@ -101,19 +193,21 @@ int main() {
 		int blocksOnHalfScreenY = static_cast<int>(1 / blockY);
 		int indexOfFirstBlockY = static_cast<int>(playerY * (blocksOnHalfScreenY * -1));
 
+		int tempIndexMinus = static_cast<int>((playerX - blockX * 0.49f) * (blocksOnHalfScreenX * -1));
+		int tempIndexPlus = static_cast<int>((playerX + blockX * 0.49f) * (blocksOnHalfScreenX * -1));
+
+		//Check for blocks in your lower half for X axis collisions ALWAYS
 		if (tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1] != 0.0f) {
 			if (playerXVelocity > 0.0f) {
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
 				if (targetX - playerX < 0) {
 					playerX = targetX;
 					playerXVelocity = 0.0f;
+					dashEnd = 0;
 				}
-				
+
 			}
 		}
-
-		int tempIndexMinus = static_cast<int>((playerX - blockX * 0.5f) * (blocksOnHalfScreenX * -1));
-		int tempIndexPlus = static_cast<int>((playerX + blockX * 0.5f) * (blocksOnHalfScreenX * -1));
 
 		if (tilemap[indexOfFirstBlockY - 1][tempIndexMinus] != 0.0f) {
 			if (playerXVelocity < 0.0f) {
@@ -121,8 +215,36 @@ int main() {
 				if (targetX - playerX > 0) {
 					playerX = targetX;
 					playerXVelocity = 0.0f;
+					dashEnd = 0;
 				}
 
+			}
+		}
+
+		//Only check for head collisions if !crouching
+		if (!crouching) {
+			if (tilemap[indexOfFirstBlockY][indexOfFirstBlockX - 1] != 0.0f) {
+				if (playerXVelocity > 0.0f) {
+					float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+					if (targetX - playerX < 0) {
+						playerX = targetX;
+						playerXVelocity = 0.0f;
+						dashEnd = 0;
+					}
+
+				}
+			}
+
+			if (tilemap[indexOfFirstBlockY][tempIndexMinus] != 0.0f) {
+				if (playerXVelocity < 0.0f) {
+					float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+					if (targetX - playerX > 0) {
+						playerX = targetX;
+						playerXVelocity = 0.0f;
+						dashEnd = 0;
+					}
+
+				}
 			}
 		}
 
@@ -142,10 +264,44 @@ int main() {
 				}
 			}
 		}	
-
-		if (grounded && getKey(GLFW_KEY_SPACE)) {
-			playerYVelocity = blockY * -5.0f;
+		if (getKey(GLFW_KEY_LEFT_SHIFT)) {
+			crouching = true;
 		}
-		
+		else {
+			crouching = false;
+		}
+		if (tilemap[indexOfFirstBlockY][tempIndexMinus] > 0.0f && tilemap[indexOfFirstBlockY][tempIndexPlus] > 0.0f) {
+			crouching = true;
+		}
+
+		//When crouching
+		if (!crouching) {
+			if (tilemap[indexOfFirstBlockY+1][tempIndexMinus] <= 0.0f && tilemap[indexOfFirstBlockY+1][tempIndexPlus] <= 0.0f) {
+				if (grounded && getKey(GLFW_KEY_SPACE)) {
+					playerYVelocity = blockY * -5.0f;
+				}
+			}
+			else {
+				if (playerYVelocity < 0 && false) {
+					playerYVelocity = 0;
+				}
+			}
+		}
+		else {
+			//When not crouching
+			if (tilemap[indexOfFirstBlockY][tempIndexMinus] <= 0.0f && tilemap[indexOfFirstBlockY][tempIndexPlus] <= 0.0f) {
+				if (playerYVelocity < 0 && false) {
+					playerYVelocity = 0;
+				}
+				if (grounded && getKey(GLFW_KEY_SPACE)) {
+					playerYVelocity = blockY * -5.0f;
+				}
+			}
+			else {
+				if (playerYVelocity < 0 && false) {
+					playerYVelocity = 0;
+				}
+			}
+		}
 	}
 }

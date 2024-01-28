@@ -9,6 +9,11 @@
 #include <STB\stb_image.h>
 #include <TIMEWARP ENGINE\gameLoop.h>
 
+int globalScreenWidth = 800;
+int globalScreenHeight = 600;
+
+bool isPixelArt = true;
+
 unsigned int blockTexture;
 
 // Define public variables
@@ -40,7 +45,8 @@ unsigned int generateTexture(std::string filePath) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    if (isPixelArt) { glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); }
+    else { glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); }
     // load and generate the texture
     int width, height, nrChannels;
     unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
@@ -64,9 +70,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 // Update OPENGL's viewport if the window is resized
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    if (sizeof(cachedTilemap) > 0) {
-        updateTilemap(cachedTilemap);
-    }
     glViewport(0, 0, width, height);
 }
 
@@ -85,7 +88,7 @@ int rendererInit() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create a window using GLFW
-    window = glfwCreateWindow(800, 600, "Timewarp", NULL, NULL);
+    window = glfwCreateWindow(globalScreenWidth, globalScreenHeight, "Timewarp", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -102,7 +105,7 @@ int rendererInit() {
     }
 
     // Tell OPENGL the size of the window
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, globalScreenWidth, globalScreenHeight);
 
     // Register the window resize callback  
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -141,7 +144,7 @@ Shader makeShader() {
     return basic_shader;
 }
 
-std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& inputVector) {
+std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& inputVector, float playerX, float playerY, std::vector<float> playerXPositions, std::vector<float> playerYPositions, std::vector<bool> pCV) {
     // Calculate the total size needed for the flat array
     size_t totalSize = 0;
     for (const auto& row : inputVector) {
@@ -165,54 +168,56 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     int numOfTriangles = 0;
     for (const auto& row : inputVector) {
         for (const auto& element : row) {
-            numOfTriangles += 2;
-            //Top right
-            flattenedArray[index++] = (x + 1.0f) * xMult;
-            flattenedArray[index++] = (y + 1.0f) * yMult;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = element * 10;
+            if (element != 0.0f) {
+                numOfTriangles += 2;
+                //Top right
+                flattenedArray[index++] = (x + 1.0f) * xMult;
+                flattenedArray[index++] = (y + 1.0f) * yMult;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = element * 10;
 
-            //Bottom right
-            flattenedArray[index++] = (x + 1.0f) * xMult;
-            flattenedArray[index++] = y * yMult;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 0.0f;
-            flattenedArray[index++] = element * 10;
+                //Bottom right
+                flattenedArray[index++] = (x + 1.0f) * xMult;
+                flattenedArray[index++] = y * yMult;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 0.0f;
+                flattenedArray[index++] = element * 10;
 
-            //Bottom left
-            flattenedArray[index++] = x * xMult;
-            flattenedArray[index++] = y * yMult;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 0.0f;
-            flattenedArray[index++] = 0.0f;
-            flattenedArray[index++] = element * 10;
+                //Bottom left
+                flattenedArray[index++] = x * xMult;
+                flattenedArray[index++] = y * yMult;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 0.0f;
+                flattenedArray[index++] = 0.0f;
+                flattenedArray[index++] = element * 10;
 
-            //Top right
-            flattenedArray[index++] = (x + 1.0f) * xMult;
-            flattenedArray[index++] = (y + 1.0f) * yMult;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = element * 10;
+                //Top right
+                flattenedArray[index++] = (x + 1.0f) * xMult;
+                flattenedArray[index++] = (y + 1.0f) * yMult;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = element * 10;
 
-            //Top left
-            flattenedArray[index++] = x * xMult;
-            flattenedArray[index++] = (y + 1.0f) * yMult;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 0.0f;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = element * 10;
+                //Top left
+                flattenedArray[index++] = x * xMult;
+                flattenedArray[index++] = (y + 1.0f) * yMult;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 0.0f;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = element * 10;
 
-            //Bottom left
-            flattenedArray[index++] = x * xMult;
-            flattenedArray[index++] = y * yMult;
-            flattenedArray[index++] = 1.0f;
-            flattenedArray[index++] = 0.0f;
-            flattenedArray[index++] = 0.0f;
-            flattenedArray[index++] = element * 10;
+                //Bottom left
+                flattenedArray[index++] = x * xMult;
+                flattenedArray[index++] = y * yMult;
+                flattenedArray[index++] = 1.0f;
+                flattenedArray[index++] = 0.0f;
+                flattenedArray[index++] = 0.0f;
+                flattenedArray[index++] = element * 10;
+            }
             x++;
         }
         y++;
@@ -220,62 +225,75 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     }
 
     //Bottom left
-    flattenedArray[index++] = xMult * -0.5f;
-    flattenedArray[index++] = -yMult;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 0.0f;
-    flattenedArray[index++] = 0.0f;
-    flattenedArray[index++] = 4.0f;
+    for (int i = 0; i < playerXPositions.size(); i++) {
+        float xOffset = playerXPositions[i] - playerX;
+        float yOffset = playerYPositions[i] - playerY;
+        bool isCrouching = pCV[i];
+        if (isCrouching) {
+            yMult /= 2;
+            yOffset += yMult;
+        }
+        flattenedArray[index++] = xMult * -0.5f + xOffset;
+        flattenedArray[index++] = -yMult + yOffset;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 0.0f;
+        flattenedArray[index++] = 0.0f;
+        flattenedArray[index++] = 4.0f;
 
-    //Top left
-    flattenedArray[index++] = xMult * -0.5f;
-    flattenedArray[index++] = yMult;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 0.0f;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 4.0f;
+        //Top left
+        flattenedArray[index++] = xMult * -0.5f + xOffset;
+        flattenedArray[index++] = yMult + yOffset;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 0.0f;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 4.0f;
 
-    //Top right
-    flattenedArray[index++] = xMult * 0.5f;
-    flattenedArray[index++] = yMult;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 4.0f;
+        //Top right
+        flattenedArray[index++] = xMult * 0.5f + xOffset;
+        flattenedArray[index++] = yMult + yOffset;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 4.0f;
 
-    //Bottom left
-    flattenedArray[index++] = xMult * -0.5f;
-    flattenedArray[index++] = -yMult;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 0.0f;
-    flattenedArray[index++] = 0.0f;
-    flattenedArray[index++] = 4.0f;
+        //Bottom left
+        flattenedArray[index++] = xMult * -0.5f + xOffset;
+        flattenedArray[index++] = -yMult + yOffset;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 0.0f;
+        flattenedArray[index++] = 0.0f;
+        flattenedArray[index++] = 4.0f;
 
-    //Bottom right
-    flattenedArray[index++] = xMult * 0.5f;
-    flattenedArray[index++] = -yMult;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 0.0f;
-    flattenedArray[index++] = 4.0f;
+        //Bottom right
+        flattenedArray[index++] = xMult * 0.5f + xOffset;
+        flattenedArray[index++] = -yMult + yOffset;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 0.0f;
+        flattenedArray[index++] = 4.0f;
 
-    //Top right
-    flattenedArray[index++] = xMult * 0.5f;
-    flattenedArray[index++] = yMult;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 1.0f;
-    flattenedArray[index++] = 4.0f;
-    
-    numOfTriangles += 2;
+        //Top right
+        flattenedArray[index++] = xMult * 0.5f + xOffset;
+        flattenedArray[index++] = yMult + yOffset;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 1.0f;
+        flattenedArray[index++] = 4.0f;
+
+        numOfTriangles += 2;
+        if (isCrouching) {
+            yOffset -= yMult;
+            yMult *= 2;
+        }
+    }
 
     return { flattenedArray, numOfTriangles };
 }
 
 
-void updateTilemap(std::vector<std::vector<float>> tilemap) {
+void updateTilemap(std::vector<std::vector<float>> tilemap, float playerX, float playerY, std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> pCV) {
     cachedTilemap = tilemap;
-    auto result = flatten2DVector(tilemap);
+    auto result = flatten2DVector(tilemap, playerX, playerY, pXP, pYP, pCV);
 
     float* vertices = result.first;
     int numOfTriangles = result.second;
@@ -288,9 +306,11 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
     delete[] vertices;
 }
 
-float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, Shader basic_shader) {
+float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, Shader basic_shader, std::vector<float> playerSpriteXPositions, std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector) {
 
     glBindTexture(GL_TEXTURE_2D, blockTexture);
+
+    updateTilemap(tilemap, playerX, playerY, playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
 
     currentTime = glfwGetTime();
     deltaTime = currentTime - lastFrame;
