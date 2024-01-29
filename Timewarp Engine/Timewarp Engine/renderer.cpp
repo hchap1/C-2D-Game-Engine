@@ -42,6 +42,11 @@ unsigned int VBO, VAO, EBO;
 unsigned int PVBO, PVAO, PEBO;
 unsigned int playerTexture;
 
+void setBackgroundRGB(float r, float b, float g) {
+    glClearColor(r / 255, g / 255, b / 255, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 unsigned int generateTexture(std::string filePath) {
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -116,6 +121,9 @@ int rendererInit() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     //Rendering setup for TILES
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
@@ -144,7 +152,7 @@ int rendererInit() {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float))); //texture coords
     glEnableVertexAttribArray(1);
     // index size type normalized stride offsetPointer
-
+    stbi_set_flip_vertically_on_load(false);
     playerTexture = generateTexture("src/textures/player.png");
     glBindVertexArray(VAO);
 
@@ -343,8 +351,7 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     tile_shader.setFloat("cameraX", playerX);
     tile_shader.setFloat("cameraY", playerY);
 
-    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    setBackgroundRGB(100, 175, 205);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
 
     glBindVertexArray(PVAO);

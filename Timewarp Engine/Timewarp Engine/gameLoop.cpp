@@ -75,7 +75,7 @@ private:
 std::vector<gameState> timeline;
 
 void setBlockSize(float bx, float by, float w, float h) {
-	blockX = bx;
+	blockX = bx;bro 
 	blockY = by;
 	width = w;
 	height = h;
@@ -197,6 +197,9 @@ int main() {
 		int tempIndexMinus = static_cast<int>((playerX - blockX * 0.49f) * (blocksOnHalfScreenX * -1));
 		int tempIndexPlus = static_cast<int>((playerX + blockX * 0.49f) * (blocksOnHalfScreenX * -1));
 
+		int tempIndexMinusSmall = static_cast<int>((playerX - blockX * 0.45f) * (blocksOnHalfScreenX * -1));
+		int tempIndexPlusSmall = static_cast<int>((playerX + blockX * 0.45f) * (blocksOnHalfScreenX * -1));
+
 		//Check for blocks in your lower half for X axis collisions ALWAYS
 		if (tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1] != 0.0f) {
 			if (playerXVelocity > 0.0f) {
@@ -286,8 +289,9 @@ int main() {
 		else if (!crouchedBecauseOfHeadhitter){
 			crouching = false;
 		}
-		if (tilemap[indexOfFirstBlockY][tempIndexMinus] > 0.0f || tilemap[indexOfFirstBlockY][tempIndexPlus] > 0.0f) {
+		if (tilemap[indexOfFirstBlockY][tempIndexMinusSmall] > 0.0f || tilemap[indexOfFirstBlockY][tempIndexPlusSmall] > 0.0f) {
 			crouching = true;
+			std::cout << "forced crouch. XPOS: " << playerX << std::endl;
 		}
 
 		//When crouching
@@ -308,9 +312,6 @@ int main() {
 			if (tilemap[indexOfFirstBlockY][tempIndexMinus] <= 0.0f && tilemap[indexOfFirstBlockY][tempIndexPlus] <= 0.0f) {
 				if (playerYVelocity < 0 && false) {
 					playerYVelocity = 0;
-				}
-				if (grounded && getKey(GLFW_KEY_SPACE) && !crouching) {
-					playerYVelocity = blockY * -5.0f;
 				}
 			}
 			else {
