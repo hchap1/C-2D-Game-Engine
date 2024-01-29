@@ -265,14 +265,28 @@ int main() {
 				}
 			}
 		}	
+
+		bool crouchedBecauseOfHeadhitter = false;
+
+		if (tilemap[indexOfFirstBlockY+1][tempIndexMinus] != 0.0f || tilemap[indexOfFirstBlockY+1][tempIndexPlus] != 0.0f) {
+			if (playerYVelocity < 0) {
+				float targetY = indexOfFirstBlockY * blockY * -1;;
+				if (targetY - playerY < blockY / 4) {
+					playerY = targetY;
+					playerYVelocity = 0.0f;
+					if (!dashing) { grounded = true; }
+				}
+			}
+		}
+
+
 		if (getKey(GLFW_KEY_LEFT_SHIFT)) {
 			crouching = true;
 		}
-		else {
+		else if (!crouchedBecauseOfHeadhitter){
 			crouching = false;
 		}
 		if (tilemap[indexOfFirstBlockY][tempIndexMinus] > 0.0f || tilemap[indexOfFirstBlockY][tempIndexPlus] > 0.0f) {
-			std::cout << "FORCED CROUCH. X VELOCITY " << playerXVelocity << std::endl;
 			crouching = true;
 		}
 
@@ -295,7 +309,7 @@ int main() {
 				if (playerYVelocity < 0 && false) {
 					playerYVelocity = 0;
 				}
-				if (grounded && getKey(GLFW_KEY_SPACE)) {
+				if (grounded && getKey(GLFW_KEY_SPACE) && !crouching) {
 					playerYVelocity = blockY * -5.0f;
 				}
 			}

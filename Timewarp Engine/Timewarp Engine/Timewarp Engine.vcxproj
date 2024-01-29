@@ -143,6 +143,7 @@
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
+    <ClInclude Include="include\SHADER CLASS\shader.h" />
     <ClInclude Include="include\STB\stb_image.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />

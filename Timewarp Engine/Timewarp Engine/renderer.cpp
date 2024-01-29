@@ -265,23 +265,68 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
     delete[] vertices;
 }
 
-int updatePlayerPositions(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> pCV) {
-    float pHBX = blockWidth / 2;
-    float nHBX = pHBX * -1;
-    float nFBY = blockHeight * -1;
-    float pFBY = blockHeight;
-    float vertices[] = { nHBX, -pFBY, 0.0f, 0.0f, //bottom left
-                    nHBX,  pFBY, 0.0f, 1.0f, //top left
-                     pHBX, -pFBY, 1.0f, 0.0f, //bottom right
-                    nHBX,  pFBY, 0.0f, 1.0f, //top left
-                     pHBX, -pFBY, 1.0f, 0.0f, //bottom right
-                     pHBX,  pFBY, 1.0f, 1.0f  //top right
-    };
-    glBindVertexArray(PVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, PVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-    return 2;
-}
+    int updatePlayerPositions(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> pCV, float playerX, float playerY) {
+
+        int playersToRender = pXP.size();
+        size_t totalSize = playersToRender * 24 * sizeof(float);
+        float* vertices = new float[totalSize];
+
+        float pHBX, nHBX, pFBY, nFBY, xPos, yPos;
+        bool isCrouching;
+        int numTriangles = 0;
+        int index = 0;
+
+        for (int i = 0; i < playersToRender; i++){
+            xPos = pXP[i];
+            yPos = pYP[i];
+            isCrouching = pCV[i];
+
+            pHBX = blockWidth / 2 + xPos;
+            nHBX = blockWidth / -2 + xPos;
+            nFBY = blockHeight * -1 + yPos;
+            pFBY = blockHeight + yPos;
+
+            numTriangles += 2;
+
+            if (isCrouching) { nFBY += blockHeight; }
+
+            //Bottom left
+            vertices[index++] = nHBX;
+            vertices[index++] = nFBY;
+            vertices[index++] = 0.0f;
+            vertices[index++] = 0.0f;
+            //Top left
+            vertices[index++] = nHBX;
+            vertices[index++] = pFBY;
+            vertices[index++] = 0.0f;
+            vertices[index++] = 1.0f;
+            //Bottom right
+            vertices[index++] = pHBX;
+            vertices[index++] = nFBY;
+            vertices[index++] = 1.0f;
+            vertices[index++] = 0.0f;
+            //Top left
+            vertices[index++] = nHBX;
+            vertices[index++] = pFBY;
+            vertices[index++] = 0.0f;
+            vertices[index++] = 1.0f;
+            //Bottom right
+            vertices[index++] = pHBX;
+            vertices[index++] = nFBY;
+            vertices[index++] = 1.0f;
+            vertices[index++] = 0.0f;
+            //Top right
+            vertices[index++] = pHBX;
+            vertices[index++] = pFBY;
+            vertices[index++] = 1.0f;
+            vertices[index++] = 1.0f;
+        };
+        glBindVertexArray(PVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, PVBO);
+        glBufferData(GL_ARRAY_BUFFER, totalSize, vertices, GL_DYNAMIC_DRAW);
+        delete[] vertices;
+        return numTriangles;
+    }
 
 float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector) {
 
@@ -307,8 +352,8 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     player_shader.setFloat("cameraX", playerX);
     player_shader.setFloat("cameraY", playerY);
     glBindTexture(GL_TEXTURE_2D, playerTexture);
-    int num_triangles = updatePlayerPositions(playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
-    glDrawArrays(GL_TRIANGLES, 0, num_triangles * sizeof(float));
+    int numTriangles = updatePlayerPositions(playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector, playerX, playerY);
+    glDrawArrays(GL_TRIANGLES, 0, numTriangles * 3);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

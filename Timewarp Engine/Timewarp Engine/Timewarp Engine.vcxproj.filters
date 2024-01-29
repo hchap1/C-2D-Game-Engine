@@ -59,6 +59,9 @@
     <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\SHADER CLASS\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="testFile.txt" />

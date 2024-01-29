@@ -1,6 +1,2 @@
-﻿  renderer.cpp
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(152,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(181,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(181,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(293,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  gameLoop.cpp
   Timewarp Engine.vcxproj -> C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\x64\Debug\Timewarp Engine.exe

@@ -3,10 +3,16 @@ layout (location = 0) in vec2 aPos;
 layout (location = 1) in vec2 aTexCoord;
 
 out vec2 TexCoord;
+out float Color;
 uniform float cameraX;
 uniform float cameraY;
 
 void main(){
-	gl_Position = vec4(aPos, 1, 1);
+	vec4 shiftedPosition = vec4((aPos.x - cameraX) * -1, (aPos.y - cameraY) * -1, 1, 1);
+	gl_Position = shiftedPosition;
+	float xDist = sin(1 - abs(shiftedPosition.x));
+	float yDist = sin(1 - abs(shiftedPosition.y));
+	float lightVal = ((xDist + yDist) / 1.5);
+	Color = lightVal * lightVal * lightVal;
 	TexCoord = aTexCoord;
 }
