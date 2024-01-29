@@ -95,7 +95,8 @@ int main() {
 	float playerY = -3.5f;
 
 	int success = rendererInit();
-	Shader basic_shader = makeShader();
+	Shader tile_shader = makeTileShader();
+	Shader player_shader = makePlayerShader();
 	
 	vector<vector<float>> tilemap = loadLevel(0);
 	float movementMultiplier, fps;
@@ -132,7 +133,7 @@ int main() {
 		std::vector<float> playerSpriteXPositions = currentGameState.getXData();
 		std::vector<float> playerSpriteYPositions = currentGameState.getYData();
 		std::vector<bool> playerCrouchingVector = currentGameState.getCrouching();
-		deltaTime = render(tilemap, playerX, playerY, basic_shader, playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
+		deltaTime = render(tilemap, playerX, playerY, tile_shader, player_shader, playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
 
 		//Flip most recent position
 		//currentGameState.flipMostRecentPosition();
@@ -270,7 +271,8 @@ int main() {
 		else {
 			crouching = false;
 		}
-		if (tilemap[indexOfFirstBlockY][tempIndexMinus] > 0.0f && tilemap[indexOfFirstBlockY][tempIndexPlus] > 0.0f) {
+		if (tilemap[indexOfFirstBlockY][tempIndexMinus] > 0.0f || tilemap[indexOfFirstBlockY][tempIndexPlus] > 0.0f) {
+			std::cout << "FORCED CROUCH. X VELOCITY " << playerXVelocity << std::endl;
 			crouching = true;
 		}
 

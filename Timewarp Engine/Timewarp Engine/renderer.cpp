@@ -12,6 +12,9 @@
 int globalScreenWidth = 800;
 int globalScreenHeight = 600;
 
+float blockWidth;
+float blockHeight;
+
 bool isPixelArt = true;
 
 unsigned int blockTexture;
@@ -36,6 +39,8 @@ unsigned int triangleCount = 0;
 float currentTime, deltaTime, lastFrame;
 
 unsigned int VBO, VAO, EBO;
+unsigned int PVBO, PVAO, PEBO;
+unsigned int playerTexture;
 
 unsigned int generateTexture(std::string filePath) {
     unsigned int texture;
@@ -60,7 +65,7 @@ unsigned int generateTexture(std::string filePath) {
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);  
-
+    std::cout << "DONE LOADING TEXTURE: " << filePath << std::endl;
     return texture;
 }
 
@@ -110,18 +115,12 @@ int rendererInit() {
     // Register the window resize callback  
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+    //Rendering setup for TILES
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(tileVertices), tileVertices, GL_DYNAMIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_DYNAMIC_DRAW);
-    stbi_set_flip_vertically_on_load(true);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -130,7 +129,24 @@ int rendererInit() {
     glEnableVertexAttribArray(2);
     // index size type normalized stride offsetPointer
 
+    stbi_set_flip_vertically_on_load(true);
     blockTexture = generateTexture("src/textures/blocks.png");
+
+    //Rendering setup for PLAYER[s]
+    glGenVertexArrays(1, &PVAO);
+    glGenBuffers(1, &PVBO);
+    glBindVertexArray(PVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, PVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tileVertices), tileVertices, GL_DYNAMIC_DRAW);
+    //Vertice example: x, y, tx, ty [z is hardcoded to 1]
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0); //position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float))); //texture coords
+    glEnableVertexAttribArray(1);
+    // index size type normalized stride offsetPointer
+
+    playerTexture = generateTexture("src/textures/player.png");
+    glBindVertexArray(VAO);
 
     deltaTime = 0.01f;
     lastFrame = glfwGetTime();
@@ -138,13 +154,19 @@ int rendererInit() {
     return 0;
 }
 
-Shader makeShader() {
-    Shader basic_shader("src/shaders/vertex_shader.txt", "src/shaders/fragment_shader.txt");
+Shader makeTileShader() {
+    Shader basic_shader("src/shaders/tile_vertex_shader.txt", "src/shaders/tile_fragment_shader.txt");
     basic_shader.use();
     return basic_shader;
 }
 
-std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& inputVector, float playerX, float playerY, std::vector<float> playerXPositions, std::vector<float> playerYPositions, std::vector<bool> pCV) {
+Shader makePlayerShader() {
+    Shader basic_shader("src/shaders/player_vertex_shader.txt", "src/shaders/player_fragment_shader.txt");
+    basic_shader.use();
+    return basic_shader;
+}
+
+std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& inputVector) {
     // Calculate the total size needed for the flat array
     size_t totalSize = 0;
     for (const auto& row : inputVector) {
@@ -157,6 +179,8 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     float yMult = 100.0f / height;
 
     setBlockSize(xMult, yMult, width, height);
+    blockWidth = xMult;
+    blockHeight = yMult;
 
     // Allocate a dynamic array
     float* flattenedArray = new float[totalSize];
@@ -223,77 +247,13 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
         y++;
         x = 0;
     }
-
-    //Bottom left
-    for (int i = 0; i < playerXPositions.size(); i++) {
-        float xOffset = playerXPositions[i] - playerX;
-        float yOffset = playerYPositions[i] - playerY;
-        bool isCrouching = pCV[i];
-        if (isCrouching) {
-            yMult /= 2;
-            yOffset += yMult;
-        }
-        flattenedArray[index++] = xMult * -0.5f + xOffset;
-        flattenedArray[index++] = -yMult + yOffset;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 0.0f;
-        flattenedArray[index++] = 0.0f;
-        flattenedArray[index++] = 4.0f;
-
-        //Top left
-        flattenedArray[index++] = xMult * -0.5f + xOffset;
-        flattenedArray[index++] = yMult + yOffset;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 0.0f;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 4.0f;
-
-        //Top right
-        flattenedArray[index++] = xMult * 0.5f + xOffset;
-        flattenedArray[index++] = yMult + yOffset;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 4.0f;
-
-        //Bottom left
-        flattenedArray[index++] = xMult * -0.5f + xOffset;
-        flattenedArray[index++] = -yMult + yOffset;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 0.0f;
-        flattenedArray[index++] = 0.0f;
-        flattenedArray[index++] = 4.0f;
-
-        //Bottom right
-        flattenedArray[index++] = xMult * 0.5f + xOffset;
-        flattenedArray[index++] = -yMult + yOffset;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 0.0f;
-        flattenedArray[index++] = 4.0f;
-
-        //Top right
-        flattenedArray[index++] = xMult * 0.5f + xOffset;
-        flattenedArray[index++] = yMult + yOffset;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 1.0f;
-        flattenedArray[index++] = 4.0f;
-
-        numOfTriangles += 2;
-        if (isCrouching) {
-            yOffset -= yMult;
-            yMult *= 2;
-        }
-    }
-
     return { flattenedArray, numOfTriangles };
 }
 
 
-void updateTilemap(std::vector<std::vector<float>> tilemap, float playerX, float playerY, std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> pCV) {
+void updateTilemap(std::vector<std::vector<float>> tilemap) {
     cachedTilemap = tilemap;
-    auto result = flatten2DVector(tilemap, playerX, playerY, pXP, pYP, pCV);
+    auto result = flatten2DVector(tilemap);
 
     float* vertices = result.first;
     int numOfTriangles = result.second;
@@ -302,27 +262,53 @@ void updateTilemap(std::vector<std::vector<float>> tilemap, float playerX, float
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, totalSize, vertices, GL_DYNAMIC_DRAW);
     triangleCount = numOfTriangles;
-    std::cout << "NUM OF TRIANGLES: " << triangleCount << std::endl;
     delete[] vertices;
 }
 
-float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, Shader basic_shader, std::vector<float> playerSpriteXPositions, std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector) {
+int updatePlayerPositions(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> pCV) {
+    float pHBX = blockWidth / 2;
+    float nHBX = pHBX * -1;
+    float nFBY = blockHeight * -1;
+    float pFBY = blockHeight;
+    float vertices[] = { nHBX, -pFBY, 0.0f, 0.0f, //bottom left
+                    nHBX,  pFBY, 0.0f, 1.0f, //top left
+                     pHBX, -pFBY, 1.0f, 0.0f, //bottom right
+                    nHBX,  pFBY, 0.0f, 1.0f, //top left
+                     pHBX, -pFBY, 1.0f, 0.0f, //bottom right
+                     pHBX,  pFBY, 1.0f, 1.0f  //top right
+    };
+    glBindVertexArray(PVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, PVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+    return 2;
+}
 
+float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector) {
+
+    glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, blockTexture);
 
-    updateTilemap(tilemap, playerX, playerY, playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
-
+    updateTilemap(tilemap);
+    
     currentTime = glfwGetTime();
     deltaTime = currentTime - lastFrame;
     lastFrame = currentTime;
 
-    basic_shader.setFloat("cameraX", playerX);
-    basic_shader.setFloat("cameraY", playerY);
+    tile_shader.use();
+    tile_shader.setFloat("cameraX", playerX);
+    tile_shader.setFloat("cameraY", playerY);
 
     glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
+
+    glBindVertexArray(PVAO);
+    player_shader.use();
+    player_shader.setFloat("cameraX", playerX);
+    player_shader.setFloat("cameraY", playerY);
+    glBindTexture(GL_TEXTURE_2D, playerTexture);
+    int num_triangles = updatePlayerPositions(playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector);
+    glDrawArrays(GL_TRIANGLES, 0, num_triangles * sizeof(float));
 
     glfwSwapBuffers(window);
     glfwPollEvents();

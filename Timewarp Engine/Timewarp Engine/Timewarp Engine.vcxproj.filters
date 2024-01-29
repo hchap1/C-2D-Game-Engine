@@ -63,14 +63,20 @@
   <ItemGroup>
     <Text Include="testFile.txt" />
     <Text Include="src\levels\0\tilemap.txt" />
-    <Text Include="src\shaders\vertex_shader.txt" />
-    <Text Include="src\shaders\fragment_shader.txt" />
+    <Text Include="src\shaders\tile_vertex_shader.txt" />
+    <Text Include="src\shaders\tile_fragment_shader.txt" />
+    <Text Include="src\shaders\player_fragment_shader.txt" />
+    <Text Include="src\shaders\player_vertex_shader.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\textures\blocks.ase" />
+    <None Include="src\textures\player.ase" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\blocks.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\textures\player.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

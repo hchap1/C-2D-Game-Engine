@@ -1,0 +1,28 @@
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoord;
+layout (location = 2) in float blockID;
+
+out float Color;
+out vec2 TexCoord;
+
+uniform float cameraX;
+uniform float cameraY;
+
+void main(){
+
+	vec4 shiftedPosition = vec4(aPos.x + cameraX, aPos.y + cameraY, aPos.z, 1.0);
+
+	if (blockID < 4) {
+		gl_Position = shiftedPosition;
+		float xDist = sin(1 - abs(shiftedPosition.x));
+		float yDist = sin(1 - abs(shiftedPosition.y));
+		float lightVal = ((xDist + yDist) / 1.5);
+		Color = lightVal * lightVal * lightVal;
+	}
+	else {
+		gl_Position = vec4(aPos.x * -1, aPos.y * -1, 1.0, 1.0);
+		Color = 1.0;
+	}
+	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 8) + (0.875 - (blockID / 8)));
+}
