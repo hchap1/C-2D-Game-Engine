@@ -8,14 +8,24 @@ out vec2 TexCoord;
 
 uniform float cameraX;
 uniform float cameraY;
+uniform bool red;
 
 void main(){
-
+	float blockOffset = blockID;
+	if (red && blockID == 4.0) {
+		blockOffset = 5;
+	}
+	if (red && blockID == 10.0){
+		blockOffset = 11.0;
+	}
 	vec4 shiftedPosition = vec4(aPos.x + cameraX, aPos.y + cameraY, aPos.z, 1.0);
 	gl_Position = shiftedPosition;
-	float xDist = sin(1 - abs(shiftedPosition.x));
-	float yDist = sin(1 - abs(shiftedPosition.y));
-	float lightVal = ((xDist + yDist) / 1.5);
-	Color = lightVal * lightVal * lightVal;
-	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 8) + (0.875 - (blockID / 8)));
+	//float xDist = sin(1 - abs(shiftedPosition.x));
+	//float yDist = sin(1 - abs(shiftedPosition.y));
+	float xDist = abs(shiftedPosition.x);
+	float yDist = abs(shiftedPosition.y);
+	float lightVal = 1.2 - sqrt(xDist * xDist + yDist * yDist);
+	//float lightVal = ((xDist + yDist) / 1.5);
+	Color = lightVal;// * lightVal * lightVal;
+	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 16) + (0.9375 - (blockOffset / 16)));
 }

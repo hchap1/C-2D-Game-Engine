@@ -54,12 +54,12 @@ unsigned int generateTexture(std::string filePath) {
     // set the texture wrapping/filtering options (on the currently bound texture object)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
     if (isPixelArt) { glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); }
     else { glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); }
     // load and generate the texture
     int width, height, nrChannels;
-    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -178,7 +178,7 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     // Calculate the total size needed for the flat array
     size_t totalSize = 0;
     for (const auto& row : inputVector) {
-        totalSize += row.size() * 36 + 36;
+        totalSize += row.size() * 36 * sizeof(float);
     }
 
     int width, height;
@@ -336,7 +336,10 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
         return numTriangles;
     }
 
-float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector) {
+float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, 
+    Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, 
+    std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector,
+    bool red) {
 
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, blockTexture);
@@ -350,6 +353,7 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     tile_shader.use();
     tile_shader.setFloat("cameraX", playerX);
     tile_shader.setFloat("cameraY", playerY);
+    tile_shader.setBool("red", red);
 
     setBackgroundRGB(100, 175, 205);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
@@ -358,6 +362,7 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     player_shader.use();
     player_shader.setFloat("cameraX", playerX);
     player_shader.setFloat("cameraY", playerY);
+
     glBindTexture(GL_TEXTURE_2D, playerTexture);
     int numTriangles = updatePlayerPositions(playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector, playerX, playerY);
     glDrawArrays(GL_TRIANGLES, 0, numTriangles * 3);
