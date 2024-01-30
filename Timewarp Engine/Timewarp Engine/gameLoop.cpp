@@ -383,7 +383,13 @@ int main() {
 				if (count > 60 && speed < 2) {
 					speed++;
 				}
-				if (count > 120 && speed < 3) {
+				if (count > 80 && speed < 3) {
+					speed++;
+				}
+				if (count > 100 && speed < 4) {
+					speed++;
+				}
+				if (count > 120 && speed < 5) {
 					speed++;
 				}
 				gameState currentGameState = timeline[index];
