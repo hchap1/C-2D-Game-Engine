@@ -219,9 +219,9 @@ int main() {
 				playerXVelocity += movementMultiplier;
 				dashDirection = 1;
 			}
-			if (getKey(GLFW_KEY_APOSTROPHE) && canDash) {
+			if (getKey(GLFW_KEY_APOSTROPHE) && canDash && gameTime >= nextDash) {
 				dashEnd = gameTime + 20;
-				nextDash = dashEnd + 20;
+				nextDash = dashEnd + 40;
 				canDash = false;
 			}
 		}
