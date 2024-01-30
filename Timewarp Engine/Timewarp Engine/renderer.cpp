@@ -153,7 +153,7 @@ int rendererInit() {
     glEnableVertexAttribArray(1);
     // index size type normalized stride offsetPointer
     stbi_set_flip_vertically_on_load(false);
-    playerTexture = generateTexture("src/textures/player.png");
+    playerTexture = generateTexture("src/textures/ethan.jpg");
     glBindVertexArray(VAO);
 
     deltaTime = 0.01f;
@@ -339,7 +339,7 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
 float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, 
     Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, 
     std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector,
-    bool red) {
+    bool red, bool green, bool blue) {
 
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, blockTexture);
@@ -354,6 +354,8 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     tile_shader.setFloat("cameraX", playerX);
     tile_shader.setFloat("cameraY", playerY);
     tile_shader.setBool("red", red);
+    tile_shader.setBool("green", green);
+    tile_shader.setBool("blue", blue);
 
     setBackgroundRGB(100, 175, 205);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));

@@ -24,10 +24,12 @@ bool green;
 
 bool grounded = false;
 bool dashing = false;
-
+bool secondJumpAvailable = true;
+bool canWallJump = true;
 bool canDash = true;
 
 int dashEnd = 0;
+int nextDash = 0;
 int gameTime = 0;
 int latestTimeReached = 0;
 int timeForTimeWarpRefresh = 0;
@@ -36,17 +38,20 @@ int dashDirection = 0;
 
 using namespace std;
 
-bool doCollide(float blockID, bool redButtonIsPressed) {
-	if (blockID == 0.0f || blockID == 0.4f || blockID == 0.5f || (blockID == 1.0f && redButtonIsPressed)) {
+bool doCollide(float blockID, bool redButtonIsPressed, bool greenButtonIsPressed, bool blueButtonIsPressed) {
+	if (blockID == 0.0f || (blockID >= 0.4f && blockID <= 0.9f)) {
+		return false;
+	}
+	if ((blockID == 1.0f && redButtonIsPressed) || (blockID == 1.2f && greenButtonIsPressed) || (blockID == 1.4f && blueButtonIsPressed)) {
 		return false;
 	}
 	return true;
 }
 
 void parseButton(float blockID) {
-	if (blockID == 0.4f || blockID == 0.5f) {
-		red = true;
-	}
+	if (blockID == 0.4f || blockID == 0.5f) { red = true; }
+	if (blockID == 0.6f || blockID == 0.7f) { green = true; }
+	if (blockID == 0.8f || blockID == 0.9f) { blue = true; }
 }
 
 class gameState {
@@ -57,13 +62,18 @@ public:
 		playerYPositions = {};
 		crouching = {};
 		redButton = false;
+		greenButton = false;
+		blueButton = false;
 	}
 
-	gameState(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> isCrouching, bool redButtonPressed)
-		: playerXPositions(pXP), playerYPositions(pYP), crouching(isCrouching), redButton(redButtonPressed) {
+	gameState(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> isCrouching, 
+		bool redButtonPressed, bool greenButtonPressed, bool blueButtonPressed)
+		: playerXPositions(pXP), playerYPositions(pYP), crouching(isCrouching), redButton(redButtonPressed),
+		greenButton(greenButtonPressed), blueButton(blueButtonPressed){
 	}
 
-	void addPosition(float px, float py, bool isCrouching, bool redButtonPressed) {
+	void addPosition(float px, float py, bool isCrouching, bool redButtonPressed,
+		bool greenButtonPressed, bool blueButtonPressed) {
 		playerXPositions.push_back(px);
 		playerYPositions.push_back(py);
 		crouching.push_back(isCrouching);
@@ -89,6 +99,12 @@ public:
 	bool getRedButton() {
 		return redButton;
 	}
+	bool getGreenButton() {
+		return greenButton;
+	}
+	bool getBlueButton() {
+		return blueButton;
+	}
 
 private:
 	std::vector<float> playerXPositions;
@@ -96,6 +112,8 @@ private:
 	std::vector<bool> crouching;
 
 	bool redButton;
+	bool greenButton;
+	bool blueButton;
 };
 
 std::vector<gameState> timeline;
@@ -133,9 +151,7 @@ int main() {
 
 	while (true) {
 		gameTime += 1;
-		if (gameTime > latestTimeReached) {
-			latestTimeReached = gameTime;
-		}
+		if (gameTime > latestTimeReached) { latestTimeReached = gameTime; }
 
 		gameState currentGameState;
 
@@ -149,11 +165,11 @@ int main() {
 			packagedY.push_back(playerY);
 			packagedCrouching.push_back(crouching);
 
-			currentGameState = gameState(packagedX, packagedY, packagedCrouching, red);
+			currentGameState = gameState(packagedX, packagedY, packagedCrouching, red, green, blue);
 		}
 
 		else {
-			timeline[gameTime].addPosition(playerX, playerY, crouching, red);
+			timeline[gameTime].addPosition(playerX, playerY, crouching, red, green, blue);
 			currentGameState = timeline[gameTime];
 		}
 
@@ -162,14 +178,22 @@ int main() {
 		std::vector<float> playerSpriteYPositions = currentGameState.getYData();
 		std::vector<bool> playerCrouchingVector = currentGameState.getCrouching();
 		bool redButtonIsPressed = currentGameState.getRedButton();
-		red = redButtonIsPressed;
+		bool greenButtonIsPressed = currentGameState.getGreenButton();
+		bool blueButtonIsPressed = currentGameState.getBlueButton();
 
+		red = redButtonIsPressed;
+		green = greenButtonIsPressed;
+		blue = blueButtonIsPressed;
+
+		//Not used as of now
 		red = false;
+		green = false;
+		blue = false;
 
 		//GL render function [see renderer.cpp and .h]. Updates buffers, draws triangles.
 		deltaTime = render(tilemap, playerX, playerY, tile_shader, player_shader, 
 			playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector,
-			redButtonIsPressed);
+			redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed);
 	
 		//Add our current game state to the timeline. [If this is a new gameframe].
 		if (gameTime == latestTimeReached) { timeline.push_back(currentGameState); }
@@ -189,22 +213,20 @@ int main() {
 		if (!dashing) {
 			if (getKey(GLFW_KEY_D)) {
 				playerXVelocity -= movementMultiplier;
+				dashDirection = -1;
 			}
 			if (getKey(GLFW_KEY_A)) {
 				playerXVelocity += movementMultiplier;
+				dashDirection = 1;
 			}
-			if (getKey(GLFW_KEY_APOSTROPHE)) {
-				dashEnd = gameTime + 15;
+			if (getKey(GLFW_KEY_APOSTROPHE) && canDash) {
+				dashEnd = gameTime + 20;
+				nextDash = dashEnd + 20;
+				canDash = false;
 			}
 		}
 
 		//Once we start moving, always keep track of which direction we are facing.
-		if (playerXVelocity > 0) {
-			dashDirection = 1;
-		}
-		else if (playerXVelocity < 0) {
-			dashDirection = -1;
-		}
 
 		//If our x velocity is small enough, just set it to zero.
 		if (playerXVelocity < 0.01f && playerXVelocity > -0.01f) { playerXVelocity = 0.0f; }
@@ -229,16 +251,22 @@ int main() {
 		int tempIndexMinusSmall = static_cast<int>((playerX - blockX * 0.45f) * (blocksOnHalfScreenX * -1));
 		int tempIndexPlusSmall = static_cast<int>((playerX + blockX * 0.45f) * (blocksOnHalfScreenX * -1));
 
+		//Change player Y by y velocity. Only do gravity if !dashing.
 		playerY += playerYVelocity * movementMultiplier;
-		if (!dashing) { playerYVelocity += deltaTime * 15.0f * blockY; }
+		if (!dashing) { playerYVelocity += deltaTime * 15.0f * blockY; } //Gravity
 		if (dashing) { playerYVelocity = 0.0f; }
 
+		//Start as if we are not on the ground.
 		grounded = false;
 
+		//Get the block type [float] of the block below your 'right' foot and below your 'left' foot.
 		float blockType = tilemap[indexOfFirstBlockY - 2][tempIndexMinus];
 		float blockType2 = tilemap[indexOfFirstBlockY - 2][tempIndexPlus];
 
-		if (doCollide(blockType, redButtonIsPressed) || doCollide(blockType2, red)) {
+		//Do collide returns true if the block should be collided with. 
+		//Ground collision [set player position to standing on top of a block
+		//if the player collided with it whilst moving downwards.
+		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed) || doCollide(blockType2, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
 			if (playerYVelocity > 0) {
 				float targetY = indexOfFirstBlockY * blockY * -1;;
 				if (targetY - playerY < blockY / 4) {
@@ -249,11 +277,13 @@ int main() {
 			}
 		}
 
-		bool crouchedBecauseOfHeadhitter = false;
+		//Redefine block types for the blocks above your head to stop the player from
+		//jumping through them. Also allows force crouch.
 		blockType = tilemap[indexOfFirstBlockY + 1][tempIndexMinus];
 		blockType2 = tilemap[indexOfFirstBlockY + 1][tempIndexPlus];
 		
-		if (doCollide(blockType, redButtonIsPressed) || doCollide(blockType2, red)) {
+		//Blocks ABOVE head.
+		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed) || doCollide(blockType2, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
 			if (playerYVelocity < 0) {
 				float targetY = indexOfFirstBlockY * blockY * -1;;
 				if (targetY - playerY < blockY / 4) {
@@ -263,54 +293,35 @@ int main() {
 				}
 			}
 		}
-
-
-		if (getKey(GLFW_KEY_LEFT_SHIFT)) {
-			crouching = true;
+		if (grounded) {
+			canWallJump = false;
+			secondJumpAvailable = true;
 		}
-		else if (!crouchedBecauseOfHeadhitter) {
-			crouching = false;
-		}
+		//Crouch whenever the users wants to as of right now. Restrictions can be added later.
+		if (getKey(GLFW_KEY_LEFT_SHIFT)) { crouching = true; }
+		else { crouching = false; }
 		if (tilemap[indexOfFirstBlockY][tempIndexMinusSmall] > 0.0f || tilemap[indexOfFirstBlockY][tempIndexPlusSmall] > 0.0f) {
 			crouching = true;
-			std::cout << "forced crouch. XPOS: " << playerX << std::endl;
 		}
 
-		//When crouching
+		//Allow the player to jump if they are grounded and below a non-collidable block.
 		if (!crouching) {
 			if (tilemap[indexOfFirstBlockY + 1][tempIndexMinus] <= 0.0f && tilemap[indexOfFirstBlockY + 1][tempIndexPlus] <= 0.0f) {
 				if (grounded && getKey(GLFW_KEY_SPACE)) {
 					playerYVelocity = blockY * -5.0f;
 				}
 			}
-			else {
-				if (playerYVelocity < 0 && false) {
-					playerYVelocity = 0;
-				}
-			}
-		}
-		else {
-			//When not crouching
-			if (tilemap[indexOfFirstBlockY][tempIndexMinus] <= 0.0f && tilemap[indexOfFirstBlockY][tempIndexPlus] <= 0.0f) {
-				if (playerYVelocity < 0 && false) {
-					playerYVelocity = 0;
-				}
-			}
-			else {
-				if (playerYVelocity < 0 && false) {
-					playerYVelocity = 0;
-				}
-			}
 		}
 
+		//Move on to x calculations. The Y was done first because we know any incurred collisions were a result of y changes.
 		playerX += playerXVelocity * movementMultiplier;
 		if (!dashing) { playerXVelocity *= 0.9f; }
-		else { (playerXVelocity = blockX * dashDirection * movementMultiplier * 500.0f); }
+		else { (playerXVelocity = blockX * dashDirection * movementMultiplier * 200.0f); }
 
-		//Check for blocks in your lower half for X axis collisions ALWAYS
+		//Check for blocks in your lower half for X axis collisions.
 		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
-		//parseButton(blockType);
-		if (doCollide(blockType, redButtonIsPressed)) {
+
+		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
 			if (playerXVelocity > 0.0f) {
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
 				if (targetX - playerX < 0) {
@@ -330,8 +341,7 @@ int main() {
 
 		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinusBig];
 		//parseButton(blockType);
-		if (doCollide(blockType, redButtonIsPressed)) {
-			std::cout << "COLLIDED" << std::endl;
+		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
 			if (playerXVelocity < 0.0f) {
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
 				if (targetX - playerX > 0) {
@@ -347,9 +357,16 @@ int main() {
 		if (!crouching) {
 			//Left wall @ head level
 			blockType = tilemap[indexOfFirstBlockY][indexOfFirstBlockX - 1];
-			if (doCollide(blockType, redButtonIsPressed)) {
+			if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
+				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+				secondJumpAvailable = true;
+				canDash = true;
+				if (targetX - playerX < blockX * 0.1f) {
+					canWallJump = true;
+					if (!dashing) { dashDirection = -1; }
+				}
 				if (playerXVelocity > 0.0f) {
-					float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+					
 					if (targetX - playerX < 0) {
 						playerX = targetX;
 						playerXVelocity = 0.0f;
@@ -360,17 +377,36 @@ int main() {
 			}
 			//Right wall @ head level
 			blockType = tilemap[indexOfFirstBlockY][tempIndexMinusBig];
-			if (doCollide(blockType, red)) {
+			if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
+				secondJumpAvailable = true;
+				canDash = true;
+				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+				if (targetX - playerX > blockX * -0.1f) {
+					if (!dashing) { dashDirection = 1; }
+					canWallJump = true;
+				}
 				if (playerXVelocity > 0.0f) {
-					float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+					
 					if (targetX - playerX > 0) {
-						playerX = targetX;
-						playerXVelocity = 0.0f;
+						//playerX = targetX;
+						//playerXVelocity = 0.0f;
 						dashEnd = 0;
 					}
 
 				}
 			}
+		}
+
+		if (canWallJump) {
+			if (getKey(GLFW_KEY_SPACE)) {
+				canWallJump = false;
+				playerYVelocity = blockY * -7.0f;
+				playerXVelocity = blockX * 7.0f * dashDirection;
+			}
+		}
+
+		if (grounded) {
+			canDash = true;
 		}
 
 		if (getKey(GLFW_KEY_T)) {
@@ -396,8 +432,10 @@ int main() {
 				float pX = currentGameState.getXData().back();
 				float pY = currentGameState.getYData().back();
 				bool cRed = currentGameState.getRedButton();
+				bool cGreen = currentGameState.getGreenButton();
+				bool cBlue = currentGameState.getBlueButton();
 				
-				render(tilemap, pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed);
+				render(tilemap, pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue);
 			}
 			gameTime = index;
 			gameState currentGameState = timeline[gameTime];

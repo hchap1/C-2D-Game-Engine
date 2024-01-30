@@ -9,15 +9,19 @@ out vec2 TexCoord;
 uniform float cameraX;
 uniform float cameraY;
 uniform bool red;
+uniform bool green;
+uniform bool blue;
 
 void main(){
 	float blockOffset = blockID;
-	if (red && blockID == 4.0) {
-		blockOffset = 5;
-	}
-	if (red && blockID == 10.0){
-		blockOffset = 11.0;
-	}
+	if (red && blockID == 4.0) { blockOffset = 5; }
+	if (green && blockID == 6.0) { blockOffset = 7; }
+	if (blue && blockID == 8.0) { blockOffset = 9; }
+
+	if (red && blockID == 10.0){ blockOffset = 11.0; }
+	if (green && blockID == 12.0){ blockOffset = 13.0; }
+	if (blue && blockID == 14.0){ blockOffset = 15.0; }
+
 	vec4 shiftedPosition = vec4(aPos.x + cameraX, aPos.y + cameraY, aPos.z, 1.0);
 	gl_Position = shiftedPosition;
 	//float xDist = sin(1 - abs(shiftedPosition.x));
