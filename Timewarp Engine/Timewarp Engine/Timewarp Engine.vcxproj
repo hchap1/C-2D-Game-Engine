@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\levels\0\tilemap.txt" />
+    <Text Include="src\shaders\outline_fragment_shader.txt" />
+    <Text Include="src\shaders\outline_vertex_shader.txt" />
     <Text Include="src\shaders\player_fragment_shader.txt" />
     <Text Include="src\shaders\player_vertex_shader.txt" />
     <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
@@ -168,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\blocks.png" />
+    <Image Include="src\textures\outline.png" />
     <Image Include="src\textures\player.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

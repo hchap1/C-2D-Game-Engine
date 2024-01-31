@@ -147,9 +147,9 @@ int gameMain(int levelID) {
 	bool crouching = false;
 
 	float playerX = -1.0f;
-	float playerY = -3.5f;
+	float playerY = -3.0f;
 
-	int success = rendererInit();
+	int success = rendererInit(true);
 	Shader tile_shader = makeTileShader();
 	Shader player_shader = makePlayerShader();
 	

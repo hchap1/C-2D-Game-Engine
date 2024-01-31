@@ -8,6 +8,7 @@
 #include <utility>
 #include <STB\stb_image.h>
 #include <TIMEWARP ENGINE\gameLoop.h>
+#include <TIMEWARP ENGINE\levelEditor.h>
 
 int globalScreenWidth = 800;
 int globalScreenHeight = 600;
@@ -90,7 +91,7 @@ bool getKey(int keycode) {
     return false;
 }
 
-int rendererInit() {
+int rendererInit(bool isGame) {
     // Create GLFW context
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -153,7 +154,22 @@ int rendererInit() {
     glEnableVertexAttribArray(1);
     // index size type normalized stride offsetPointer
     stbi_set_flip_vertically_on_load(false);
-    playerTexture = generateTexture("src/textures/ethan.jpg");
+    if (isGame) { playerTexture = generateTexture("src/textures/ethan.jpg"); }
+    else { 
+        int tw, th;
+        glfwGetWindowSize(window, &tw, &th);
+        float w = 50.0f / tw;
+        float h = 50.0f / th;
+        float outlineVertices[24] = {
+            -w, -h, 0, 0,
+             w, -h, 1, 0,
+            -w,  h, 0, 1,
+            -w,  h, 0, 1,
+             w,  h, 1, 1,
+             w, -h, 1, 0
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(outlineVertices), outlineVertices, GL_STATIC_DRAW);
+        playerTexture = generateTexture("src/textures/outline.png"); }
     glBindVertexArray(VAO);
 
     deltaTime = 0.01f;
@@ -180,6 +196,12 @@ Shader makePlayerShader() {
     return basic_shader;
 }
 
+Shader makeOutlineShader() {
+    Shader basic_shader("src/shaders/outline_vertex_shader.txt", "src/shaders/outline_fragment_shader.txt");
+    basic_shader.use();
+    return basic_shader;
+}
+
 std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& inputVector) {
     // Calculate the total size needed for the flat array
     size_t totalSize = 0;
@@ -195,6 +217,8 @@ std::pair<float*, int> flatten2DVector(const std::vector<std::vector<float>>& in
     setBlockSize(xMult, yMult, width, height);
     blockWidth = xMult;
     blockHeight = yMult;
+
+    setBlockAndWindowSize(xMult, yMult, width, height);
 
     // Allocate a dynamic array
     float* flattenedArray = new float[totalSize];
@@ -379,7 +403,7 @@ float render(float playerX, float playerY,
     return deltaTime;
 }
 
-float tilemapRender(float playerX, float playerY, std::vector<std::vector<float>> tilemap, Shader tile_shader) {
+float tilemapRender(float playerX, float playerY, std::vector<std::vector<float>> tilemap, Shader tile_shader, Shader outline_shader) {
     currentTime = glfwGetTime();
     deltaTime = currentTime - lastFrame;
     lastFrame = currentTime;
@@ -394,6 +418,12 @@ float tilemapRender(float playerX, float playerY, std::vector<std::vector<float>
     tile_shader.setBool("blue", false);
     setBackgroundRGB(100, 175, 205);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
+    
+    glBindVertexArray(PVAO);
+    glBindTexture(GL_TEXTURE_2D, playerTexture);
+    outline_shader.use();
+    glDrawArrays(GL_TRIANGLES, 0, 2 * sizeof(float));
+
     glfwSwapBuffers(window);
     glfwPollEvents();
     return deltaTime;

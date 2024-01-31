@@ -8,6 +8,17 @@
 #include <fstream>
 
 using namespace std;
+float bW;
+float bH;
+float wW;
+float wH;
+
+void setBlockAndWindowSize(float blockX, float blockY, float windowX, float windowY) {
+    bW = blockX;
+    bH = blockY;
+    wW = windowX;
+    wH = windowY;
+}
 
 wstring stringToWideString(const string& narrowString) {
     int wideStringLength = MultiByteToWideChar(CP_ACP, 0, narrowString.c_str(), -1, nullptr, 0);
@@ -84,23 +95,76 @@ void levelMain(int levelID) {
         tilemap = loadLevel(levelID);
     }
 
-    float playerX = -1.0f;
-    float playerY = -3.5f;
-
     vector<bool> playerCrouchingVector(false);
 
-    rendererInit();
+    rendererInit(false);
     updateTilemap(tilemap);
     Shader tile_shader = makeSimpleTileShader();
+    Shader outline_shader = makeOutlineShader();
 
     int right = 0;
     int left = 0;
     int up = 0;
     int down = 0;
 
-    while (true) {
-        tilemapRender(playerX, playerY, tilemap, tile_shader);
-        if (getKey(GLFW_KEY_RIGHT)) { right++; }
+    int increase = 0;
+    int decrease = 0;
+
+    float playerX = bW * -5.5f;
+    float playerY = bH * -5.5f;
+    float targetBlock = 0.0f;
+
+    while (!getKey(GLFW_KEY_ENTER)) {
+        tilemapRender(playerX, playerY, tilemap, tile_shader, outline_shader);
+        if (getKey(GLFW_KEY_D)) { right++; }
         else { right = 0; }
+        if (getKey(GLFW_KEY_A)) { left++; }
+        else { left = 0; }
+        if (getKey(GLFW_KEY_W)) { up++; }
+        else { up = 0; }
+        if (getKey(GLFW_KEY_S)) { down++; }
+        else { down = 0; }
+        if (getKey(GLFW_KEY_EQUAL)) { increase++; }
+        else { increase = 0; }
+        if (getKey(GLFW_KEY_MINUS)) { decrease++; }
+        else { decrease = 0; }
+
+        if (up == 1) { playerY -= bH; }
+        if (down == 1) { playerY += bH; }
+        if (right == 1) { playerX -= bW; }
+        if (left == 1) { playerX += bW; }
+
+        //Calculate the closest X to the player [index].
+        int blocksOnHalfScreenX = static_cast<int>(1 / bW);
+        int indexOfFirstBlockX = static_cast<int>(playerX * (blocksOnHalfScreenX * -1));
+
+        //Calculate the closest Y to the player [index].
+        int blocksOnHalfScreenY = static_cast<int>(1 / bH);
+        int indexOfFirstBlockY = static_cast<int>(playerY * (blocksOnHalfScreenY * -1));
+
+        if (increase == 1) { targetBlock += 0.1f; }
+        if (decrease == 1) { targetBlock -= 0.1f; }
+
+        if (getKey(GLFW_KEY_SPACE)) { 
+            tilemap[indexOfFirstBlockY][indexOfFirstBlockX] = targetBlock;
+            updateTilemap(tilemap);
+        }
+    }
+    string confirm;
+    cout << "[SAVE] or [DELETE]" << endl << "> ";
+    cin >> confirm;
+    if (confirm == "save") {
+        cout << "WRITING WITH WIDTH: " << width << " HEIGHT: " << height << endl;
+        writeFile(tilemapPath, "write", "");
+        for (vector<float> rowVector : tilemap) {
+            string tempRow = "";
+            for (float element : rowVector) {
+                tempRow += to_string((int)(element * 10.0f));
+                tempRow += " ";
+            }
+            tempRow.erase(tempRow.end() - 1);
+            writeFile(tilemapPath, "append", tempRow);
+        }
+        cout << "FILE SAVED." << endl;
     }
 }
