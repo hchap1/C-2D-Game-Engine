@@ -131,6 +131,8 @@
   <ItemGroup>
     <ClCompile Include="gameLoop.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="handleStart.cpp" />
+    <ClCompile Include="levelEditor.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="loadTilemap.cpp" />
     <ClCompile Include="testing.cpp" />
@@ -146,6 +148,7 @@
     <ClInclude Include="include\SHADER CLASS\shader.h" />
     <ClInclude Include="include\STB\stb_image.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\levelEditor.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
@@ -153,6 +156,8 @@
     <Text Include="src\levels\0\tilemap.txt" />
     <Text Include="src\shaders\player_fragment_shader.txt" />
     <Text Include="src\shaders\player_vertex_shader.txt" />
+    <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
+    <Text Include="src\shaders\simple_tile_vertex_shader.txt" />
     <Text Include="src\shaders\tile_fragment_shader.txt" />
     <Text Include="src\shaders\tile_vertex_shader.txt" />
     <Text Include="testFile.txt" />

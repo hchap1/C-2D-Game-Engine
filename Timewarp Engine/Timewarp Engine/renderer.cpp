@@ -168,6 +168,12 @@ Shader makeTileShader() {
     return basic_shader;
 }
 
+Shader makeSimpleTileShader() {
+    Shader basic_shader("src/shaders/simple_tile_vertex_shader.txt", "src/shaders/simple_tile_fragment_shader.txt");
+    basic_shader.use();
+    return basic_shader;
+}
+
 Shader makePlayerShader() {
     Shader basic_shader("src/shaders/player_vertex_shader.txt", "src/shaders/player_fragment_shader.txt");
     basic_shader.use();
@@ -336,15 +342,13 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
         return numTriangles;
     }
 
-float render(std::vector<std::vector<float>> tilemap, float playerX, float playerY, 
+float render(float playerX, float playerY, 
     Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, 
     std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector,
     bool red, bool green, bool blue) {
 
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, blockTexture);
-
-    updateTilemap(tilemap);
     
     currentTime = glfwGetTime();
     deltaTime = currentTime - lastFrame;
@@ -372,5 +376,25 @@ float render(std::vector<std::vector<float>> tilemap, float playerX, float playe
     glfwSwapBuffers(window);
     glfwPollEvents();
 
+    return deltaTime;
+}
+
+float tilemapRender(float playerX, float playerY, std::vector<std::vector<float>> tilemap, Shader tile_shader) {
+    currentTime = glfwGetTime();
+    deltaTime = currentTime - lastFrame;
+    lastFrame = currentTime;
+
+    glBindVertexArray(VAO);
+    glBindTexture(GL_TEXTURE_2D, blockTexture);
+    tile_shader.use();
+    tile_shader.setFloat("cameraX", playerX);
+    tile_shader.setFloat("cameraY", playerY);
+    tile_shader.setBool("red", false);
+    tile_shader.setBool("green", false);
+    tile_shader.setBool("blue", false);
+    setBackgroundRGB(100, 175, 205);
+    glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
+    glfwSwapBuffers(window);
+    glfwPollEvents();
     return deltaTime;
 }

@@ -30,6 +30,12 @@
     <ClCompile Include="testing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="handleStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="levelEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -62,6 +68,9 @@
     <ClInclude Include="include\SHADER CLASS\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\levelEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="testFile.txt" />
@@ -70,6 +79,8 @@
     <Text Include="src\shaders\tile_fragment_shader.txt" />
     <Text Include="src\shaders\player_fragment_shader.txt" />
     <Text Include="src\shaders\player_vertex_shader.txt" />
+    <Text Include="src\shaders\simple_tile_vertex_shader.txt" />
+    <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\textures\blocks.ase" />

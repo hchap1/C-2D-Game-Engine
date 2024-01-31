@@ -4,9 +4,6 @@
 #include <TIMEWARP ENGINE\renderer.h>
 #include <SHADER CLASS\shader.h>
 #include <GLFW\glfw3.h>
-#include <chrono>
-#include <thread>
-#include <map>
 
 using namespace std;
 
@@ -25,7 +22,7 @@ bool green;
 
 bool grounded = false;
 bool dashing = false;
-bool secondJumpAvailable = true;
+bool canDoubleJump = true;
 bool canWallJump = true;
 bool canDash = true;
 
@@ -35,7 +32,7 @@ int gameTime = 0;
 int latestTimeReached = 0;
 int timeForTimeWarpRefresh = 0;
 
-float jumpHeight = -10.0f;
+float jumpHeight = -7.0f;
 /*
 map<std::string, float> blockIDs = {
 	"RedButton":0.4f
@@ -45,6 +42,9 @@ int dashDirection = 0;
 
 bool spaceDown = false;
 bool spaceTracker = false;
+
+bool apostropheDown = false;
+bool apostropheTracker = false;
 
 using namespace std;
 
@@ -136,7 +136,7 @@ void setBlockSize(float bx, float by, float w, float h) {
 	height = h;
 }
 
-int main() {
+int gameMain(int levelID) {
 	msPerFrame = 1 / targetFps;
 
 	float deltaTime;
@@ -153,10 +153,10 @@ int main() {
 	Shader tile_shader = makeTileShader();
 	Shader player_shader = makePlayerShader();
 	
-	vector<vector<float>> tilemap = loadLevel(0);
+	vector<vector<float>> tilemap = loadLevel(levelID);
 	float movementMultiplier, fps;
 
-	//updateTilemap(tilemap);
+	updateTilemap(tilemap);
 	glfwSwapInterval(1);
 
 	while (true) {
@@ -168,9 +168,17 @@ int main() {
 			}
 		
 		}
-		else {
-			spaceTracker = false;
+		else { spaceTracker = false; }
+
+		apostropheDown = false;
+		if (getKey(GLFW_KEY_APOSTROPHE)) {
+			if (!apostropheTracker) {
+				apostropheTracker = true;
+				apostropheDown = true;
+			}
+
 		}
+		else { apostropheTracker = false; }
 
 		gameTime += 1;
 		if (gameTime > latestTimeReached) { latestTimeReached = gameTime; }
@@ -213,7 +221,7 @@ int main() {
 		blue = false;
 
 		//GL render function [see renderer.cpp and .h]. Updates buffers, draws triangles.
-		deltaTime = render(tilemap, playerX, playerY, tile_shader, player_shader, 
+		deltaTime = render(playerX, playerY, tile_shader, player_shader, 
 			playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector,
 			redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed);
 	
@@ -241,9 +249,9 @@ int main() {
 				playerXVelocity += movementMultiplier;
 				dashDirection = 1;
 			}
-			if (getKey(GLFW_KEY_APOSTROPHE) && canDash && gameTime >= nextDash) {
+			if (apostropheDown && canDash && gameTime >= nextDash) {
 				dashEnd = gameTime + 20;
-				nextDash = dashEnd + 40;
+				nextDash = dashEnd + 30;
 				canDash = false;
 			}
 		}
@@ -317,7 +325,7 @@ int main() {
 		}
 		if (grounded) {
 			canWallJump = false;
-			secondJumpAvailable = true;
+			canDoubleJump = true;
 		}
 		//Crouch whenever the users wants to as of right now. Restrictions can be added later.
 		if (getKey(GLFW_KEY_LEFT_SHIFT)) { crouching = true; }
@@ -338,7 +346,7 @@ int main() {
 		//Move on to x calculations. The Y was done first because we know any incurred collisions were a result of y changes.
 		playerX += playerXVelocity * movementMultiplier;
 		if (!dashing) { playerXVelocity *= 0.9f; }
-		else { (playerXVelocity = blockX * dashDirection * movementMultiplier * 200.0f); }
+		else { (playerXVelocity = blockX * dashDirection * movementMultiplier * 300.0f); }
 
 		//Check for blocks in your lower half for X axis collisions.
 		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
@@ -381,7 +389,7 @@ int main() {
 			blockType = tilemap[indexOfFirstBlockY][indexOfFirstBlockX - 1];
 			if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
-				secondJumpAvailable = true;
+				canDoubleJump = true;
 				canDash = true;
 				if (targetX - playerX < blockX * 0.1f && getKey(GLFW_KEY_A)) {
 					canWallJump = true;
@@ -401,7 +409,7 @@ int main() {
 			//Right wall @ head level
 			blockType = tilemap[indexOfFirstBlockY][tempIndexMinusBig];
 			if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
-				secondJumpAvailable = true;
+				canDoubleJump = true;
 				canDash = true;
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
 				if (targetX - playerX > blockX * -0.1f && getKey(GLFW_KEY_D)) {
@@ -429,10 +437,11 @@ int main() {
 			}
 		}
 
-		if (secondJumpAvailable && spaceDown && !grounded && !canWallJump && false) {
+		if (canDoubleJump && spaceDown && !grounded && !canWallJump) {
 			std::cout << "AIR JUMP!" << std::endl;
 			playerYVelocity = blockY * jumpHeight;
-			secondJumpAvailable = false;
+			canDoubleJump = false;
+			canDash = true;
 		}
 
 		if (grounded) {
@@ -465,7 +474,7 @@ int main() {
 				bool cGreen = currentGameState.getGreenButton();
 				bool cBlue = currentGameState.getBlueButton();
 				
-				render(tilemap, pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue);
+				render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue);
 			}
 			gameTime = index;
 			gameState currentGameState = timeline[gameTime];
@@ -474,5 +483,7 @@ int main() {
 			playerXVelocity = 0.0f;
 			playerYVelocity = 0.0f;
 		}
+
+		std::cout << "FPS: " << fps << std::endl;
 	}
 }

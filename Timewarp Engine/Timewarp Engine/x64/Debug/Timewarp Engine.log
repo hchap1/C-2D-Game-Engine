@@ -1,2 +1,17 @@
 ﻿  gameLoop.cpp
+  levelEditor.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'levelEditor.cpp')
+  C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\GLAD\glad.h(32,1):
+  see previous definition of 'APIENTRY'
+  
+  renderer.cpp
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(160,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(195,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(195,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(284,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(353,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(383,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\levelEditor.cpp(39): warning C4172: returning address of local variable or temporary: data
   Timewarp Engine.vcxproj -> C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\x64\Debug\Timewarp Engine.exe
