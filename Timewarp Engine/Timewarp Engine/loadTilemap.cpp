@@ -20,7 +20,7 @@ std::vector<std::vector<float>> loadLevel(int levelID) {
         float number;
         std::vector<float> row;
         while (iss >> number) {
-            row.push_back(number / 10);
+            row.push_back(static_cast<float>(number / 10));
         }
 
         // Append row

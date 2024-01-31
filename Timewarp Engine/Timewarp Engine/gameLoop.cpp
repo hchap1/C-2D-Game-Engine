@@ -6,6 +6,7 @@
 #include <GLFW\glfw3.h>
 #include <chrono>
 #include <thread>
+#include <map>
 
 using namespace std;
 
@@ -34,7 +35,16 @@ int gameTime = 0;
 int latestTimeReached = 0;
 int timeForTimeWarpRefresh = 0;
 
+float jumpHeight = -10.0f;
+/*
+map<std::string, float> blockIDs = {
+	"RedButton":0.4f
+}
+*/
 int dashDirection = 0;
+
+bool spaceDown = false;
+bool spaceTracker = false;
 
 using namespace std;
 
@@ -150,6 +160,18 @@ int main() {
 	glfwSwapInterval(1);
 
 	while (true) {
+		spaceDown = false;
+		if (getKey(GLFW_KEY_SPACE)) {
+			if (!spaceTracker) {
+				spaceTracker = true;
+				spaceDown = true;
+			}
+		
+		}
+		else {
+			spaceTracker = false;
+		}
+
 		gameTime += 1;
 		if (gameTime > latestTimeReached) { latestTimeReached = gameTime; }
 
@@ -307,8 +329,8 @@ int main() {
 		//Allow the player to jump if they are grounded and below a non-collidable block.
 		if (!crouching) {
 			if (tilemap[indexOfFirstBlockY + 1][tempIndexMinus] <= 0.0f && tilemap[indexOfFirstBlockY + 1][tempIndexPlus] <= 0.0f) {
-				if (grounded && getKey(GLFW_KEY_SPACE)) {
-					playerYVelocity = blockY * -5.0f;
+				if (grounded && spaceDown) {
+					playerYVelocity = blockY * jumpHeight;
 				}
 			}
 		}
@@ -361,10 +383,11 @@ int main() {
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
 				secondJumpAvailable = true;
 				canDash = true;
-				if (targetX - playerX < blockX * 0.1f) {
+				if (targetX - playerX < blockX * 0.1f && getKey(GLFW_KEY_A)) {
 					canWallJump = true;
-					if (!dashing) { dashDirection = -1; }
 				}
+				if (!dashing) { dashDirection = -1; }
+			
 				if (playerXVelocity > 0.0f) {
 					
 					if (targetX - playerX < 0) {
@@ -381,10 +404,11 @@ int main() {
 				secondJumpAvailable = true;
 				canDash = true;
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
-				if (targetX - playerX > blockX * -0.1f) {
-					if (!dashing) { dashDirection = 1; }
+				if (targetX - playerX > blockX * -0.1f && getKey(GLFW_KEY_D)) {
 					canWallJump = true;
 				}
+				if (!dashing) { dashDirection = 1; }
+					
 				if (playerXVelocity > 0.0f) {
 					
 					if (targetX - playerX > 0) {
@@ -398,11 +422,17 @@ int main() {
 		}
 
 		if (canWallJump) {
-			if (getKey(GLFW_KEY_SPACE)) {
+			if (spaceDown) {
 				canWallJump = false;
-				playerYVelocity = blockY * -7.0f;
-				playerXVelocity = blockX * 7.0f * dashDirection;
+				playerYVelocity = blockY * jumpHeight;
+				playerXVelocity = blockX * 5.0f * dashDirection;
 			}
+		}
+
+		if (secondJumpAvailable && spaceDown && !grounded && !canWallJump && false) {
+			std::cout << "AIR JUMP!" << std::endl;
+			playerYVelocity = blockY * jumpHeight;
+			secondJumpAvailable = false;
 		}
 
 		if (grounded) {
