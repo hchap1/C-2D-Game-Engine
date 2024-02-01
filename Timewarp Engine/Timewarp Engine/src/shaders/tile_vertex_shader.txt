@@ -3,14 +3,16 @@ layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 aTexCoord;
 layout (location = 2) in float blockID;
 
-out float Color;
+out vec3 Color;
 out vec2 TexCoord;
+out float lightVal;
 
 uniform float cameraX;
 uniform float cameraY;
 uniform bool red;
 uniform bool green;
 uniform bool blue;
+uniform vec3 colorMultiplier;
 
 void main(){
 	float blockOffset = blockID;
@@ -28,8 +30,9 @@ void main(){
 	//float yDist = sin(1 - abs(shiftedPosition.y));
 	float xDist = abs(shiftedPosition.x);
 	float yDist = abs(shiftedPosition.y);
-	float lightVal = 1.2 - sqrt(xDist * xDist + yDist * yDist);
-	//float lightVal = ((xDist + yDist) / 1.5);
-	Color = lightVal;// * lightVal * lightVal;
-	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 16) + (0.9375 - (blockOffset / 16)));
+	float lV = 1.2 - sqrt(xDist * xDist + yDist * yDist);
+	lightVal = lV;
+	//float lV = ((xDist + yDist) / 1.5);
+	Color = colorMultiplier * lightVal;
+	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 32) + (1 - (blockOffset / 32)));
 }

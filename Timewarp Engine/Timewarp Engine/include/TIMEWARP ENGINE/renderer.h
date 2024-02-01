@@ -2,7 +2,8 @@
 #include <vector>
 #include <SHADER CLASS\shader.h>
 
-float render(float playerX, float playerY, Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector, bool red, bool green, bool blue);
+float render(float playerX, float playerY, Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, 
+	std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector, bool red, bool green, bool blue, float* colorMultiplier);
 bool getKey(int keycode);
 int rendererInit(bool isGame);
 Shader makeTileShader();

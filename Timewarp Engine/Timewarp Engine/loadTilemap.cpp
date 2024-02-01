@@ -34,3 +34,11 @@ std::vector<std::vector<float>> loadLevel(int levelID) {
 
     return tilemap;
 }
+
+int* loadLevelData(int levelID) {
+    int data[4] = {};
+    std::ifstream dataFile("src/levels/" + std::to_string(levelID) + "/data.txt");
+    dataFile >> data[0] >> data[1] >> data[2] >> data[3];
+    dataFile.close();
+    return data;
+}

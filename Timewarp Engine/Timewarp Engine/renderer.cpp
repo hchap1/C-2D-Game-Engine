@@ -369,7 +369,7 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
 float render(float playerX, float playerY, 
     Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, 
     std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector,
-    bool red, bool green, bool blue) {
+    bool red, bool green, bool blue, float* colorMultiplier) {
 
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, blockTexture);
@@ -384,8 +384,9 @@ float render(float playerX, float playerY,
     tile_shader.setBool("red", red);
     tile_shader.setBool("green", green);
     tile_shader.setBool("blue", blue);
+    tile_shader.setFloatVec3("colorMultiplier", colorMultiplier);
 
-    setBackgroundRGB(100, 175, 205);
+    setBackgroundRGB(100 * colorMultiplier[0], 175 * colorMultiplier[1], 205 * colorMultiplier[2]);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
 
     glBindVertexArray(PVAO);
