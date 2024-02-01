@@ -156,6 +156,8 @@
     <Text Include="src\levels\0\tilemap.txt" />
     <Text Include="src\shaders\outline_fragment_shader.txt" />
     <Text Include="src\shaders\outline_vertex_shader.txt" />
+    <Text Include="src\shaders\parallax_fragment_shader.txt" />
+    <Text Include="src\shaders\parallax_vertex_shader.txt" />
     <Text Include="src\shaders\player_fragment_shader.txt" />
     <Text Include="src\shaders\player_vertex_shader.txt" />
     <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
@@ -163,10 +165,6 @@
     <Text Include="src\shaders\tile_fragment_shader.txt" />
     <Text Include="src\shaders\tile_vertex_shader.txt" />
     <Text Include="testFile.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\textures\blocks.ase" />
-    <None Include="src\textures\player.ase" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\blocks.png" />

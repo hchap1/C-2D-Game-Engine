@@ -10,8 +10,8 @@
 #include <TIMEWARP ENGINE\gameLoop.h>
 #include <TIMEWARP ENGINE\levelEditor.h>
 
-int globalScreenWidth = 800;
-int globalScreenHeight = 600;
+int globalScreenWidth = 1000;
+int globalScreenHeight = 800;
 
 float blockWidth;
 float blockHeight;
@@ -39,9 +39,13 @@ unsigned int triangleCount = 0;
 
 float currentTime, deltaTime, lastFrame;
 
-unsigned int VBO, VAO, EBO;
-unsigned int PVBO, PVAO, PEBO;
+unsigned int VBO, VAO;
+unsigned int PVBO, PVAO;
+unsigned int BVBO, BVAO;
 unsigned int playerTexture;
+unsigned int background0Texture;
+unsigned int background1Texture;
+unsigned int background2Texture;
 
 void setBackgroundRGB(float r, float b, float g) {
     glClearColor(r / 255, g / 255, b / 255, 1.0f);
@@ -154,7 +158,52 @@ int rendererInit(bool isGame) {
     glEnableVertexAttribArray(1);
     // index size type normalized stride offsetPointer
     stbi_set_flip_vertically_on_load(false);
-    if (isGame) { playerTexture = generateTexture("src/textures/ethan.jpg"); }
+    if (isGame) { 
+        playerTexture = generateTexture("src/textures/player.png"); 
+        stbi_set_flip_vertically_on_load(true);
+        background0Texture = generateTexture("src/textures/0.png");
+        glGenVertexArrays(1, &BVAO);
+        glGenBuffers(1, &BVBO);
+        glBindVertexArray(BVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, BVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(tileVertices), tileVertices, GL_DYNAMIC_DRAW);
+        //Vertice example: x, y, tx, ty [z is hardcoded to 1]
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0); //position
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float))); //texture coords
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); //backgroundID
+        glEnableVertexAttribArray(2);
+        float sizeX = 100.0f / globalScreenWidth * 60.0f;
+        float sizeY = 100.0f / globalScreenHeight * 15.0f;
+
+        std::cout << "SIZE X: " << globalScreenWidth << std::endl;
+
+        float backgroundVertices[] = {
+            -sizeX, -sizeY, 0.0f, 0.25f, 2.0f,
+             sizeX, -sizeY, 1.0f, 0.25f, 2.0f,
+            -sizeX,  sizeY, 0.0f, 0.5f, 2.0f,
+             sizeX,  sizeY, 1.0f, 0.5f, 2.0f,
+             sizeX, -sizeY, 1.0f, 0.25f, 2.0f,
+            -sizeX,  sizeY, 0.0f, 0.5f, 2.0f,
+
+            -sizeX, -sizeY, 0.0f, 0.5f, 1.0f,
+             sizeX, -sizeY, 1.0f, 0.5f, 1.0f,
+            -sizeX,  sizeY, 0.0f, 0.75f, 1.0f,
+             sizeX,  sizeY, 1.0f, 0.75f, 1.0f,
+             sizeX, -sizeY, 1.0f, 0.5f, 1.0f,
+            -sizeX,  sizeY, 0.0f, 0.75f, 1.0f,
+            
+            -sizeX, -sizeY, 0.0f, 0.75f, 0.0f,
+             sizeX, -sizeY, 1.0f, 0.75f, 0.0f,
+            -sizeX,  sizeY, 0.0f, 1.0f, 0.0f,
+             sizeX,  sizeY, 1.0f, 1.0f, 0.0f,
+             sizeX, -sizeY, 1.0f, 0.75f, 0.0f,
+            -sizeX,  sizeY, 0.0f, 1.0f, 0.0f         
+            
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(backgroundVertices), backgroundVertices, GL_STATIC_DRAW);
+    }
     else { 
         int tw, th;
         glfwGetWindowSize(window, &tw, &th);
@@ -198,6 +247,12 @@ Shader makePlayerShader() {
 
 Shader makeOutlineShader() {
     Shader basic_shader("src/shaders/outline_vertex_shader.txt", "src/shaders/outline_fragment_shader.txt");
+    basic_shader.use();
+    return basic_shader;
+}
+
+Shader makeParallaxShader() {
+    Shader basic_shader("src/shaders/parallax_vertex_shader.txt", "src/shaders/parallax_fragment_shader.txt");
     basic_shader.use();
     return basic_shader;
 }
@@ -309,7 +364,7 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
         size_t totalSize = playersToRender * 24 * sizeof(float);
         float* vertices = new float[totalSize];
 
-        float pHBX, nHBX, pFBY, nFBY, xPos, yPos;
+        float pHBX, nHBX, pFBY, nFBY, xPos, yPos, top, bot;
         bool isCrouching;
         int numTriangles = 0;
         int index = 0;
@@ -324,6 +379,11 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
             nFBY = blockHeight * -1 + yPos;
             pFBY = blockHeight + yPos;
 
+            bot = 0.0f;
+            top = 0.5f;
+
+            if (isCrouching) { top += 0.25f; bot += 0.5f; }
+
             numTriangles += 2;
 
             if (isCrouching) { nFBY += blockHeight; }
@@ -332,32 +392,32 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
             vertices[index++] = nHBX;
             vertices[index++] = nFBY;
             vertices[index++] = 0.0f;
-            vertices[index++] = 0.0f;
+            vertices[index++] = bot;
             //Top left
             vertices[index++] = nHBX;
             vertices[index++] = pFBY;
             vertices[index++] = 0.0f;
-            vertices[index++] = 1.0f;
+            vertices[index++] = top;
             //Bottom right
             vertices[index++] = pHBX;
             vertices[index++] = nFBY;
             vertices[index++] = 1.0f;
-            vertices[index++] = 0.0f;
+            vertices[index++] = bot;
             //Top left
             vertices[index++] = nHBX;
             vertices[index++] = pFBY;
             vertices[index++] = 0.0f;
-            vertices[index++] = 1.0f;
+            vertices[index++] = top;
             //Bottom right
             vertices[index++] = pHBX;
             vertices[index++] = nFBY;
             vertices[index++] = 1.0f;
-            vertices[index++] = 0.0f;
+            vertices[index++] = bot;
             //Top right
             vertices[index++] = pHBX;
             vertices[index++] = pFBY;
             vertices[index++] = 1.0f;
-            vertices[index++] = 1.0f;
+            vertices[index++] = top;
         };
         glBindVertexArray(PVAO);
         glBindBuffer(GL_ARRAY_BUFFER, PVBO);
@@ -369,7 +429,16 @@ void updateTilemap(std::vector<std::vector<float>> tilemap) {
 float render(float playerX, float playerY, 
     Shader tile_shader, Shader player_shader, std::vector<float> playerSpriteXPositions, 
     std::vector<float> playerSpriteYPositions, std::vector<bool> playerCrouchingVector,
-    bool red, bool green, bool blue, float* colorMultiplier) {
+    bool red, bool green, bool blue, float* colorMultiplier, Shader parallax_shader) {
+
+    setBackgroundRGB(100 * colorMultiplier[0], 175 * colorMultiplier[1], 205 * colorMultiplier[2]);
+
+    glBindVertexArray(BVAO);
+    glBindTexture(GL_TEXTURE_2D, background0Texture);
+    parallax_shader.use();
+    parallax_shader.setFloat("cameraX", playerX);
+    parallax_shader.setFloat("cameraY", playerY);
+    glDrawArrays(GL_TRIANGLES, 0, 6 * sizeof(float));
 
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, blockTexture);
@@ -386,7 +455,6 @@ float render(float playerX, float playerY,
     tile_shader.setBool("blue", blue);
     tile_shader.setFloatVec3("colorMultiplier", colorMultiplier);
 
-    setBackgroundRGB(100 * colorMultiplier[0], 175 * colorMultiplier[1], 205 * colorMultiplier[2]);
     glDrawArrays(GL_TRIANGLES, 0, triangleCount * sizeof(float));
 
     glBindVertexArray(PVAO);

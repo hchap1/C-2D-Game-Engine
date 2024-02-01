@@ -1,0 +1,11 @@
+#version 330 core
+
+in vec2 TexCoord;
+in float lightVal;
+
+uniform sampler2D blockTexture;
+out vec4 FragColor;
+
+void main() {
+	FragColor = texture(blockTexture, TexCoord) * 0.5;
+}

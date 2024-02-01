@@ -83,10 +83,8 @@
     <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
     <Text Include="src\shaders\outline_fragment_shader.txt" />
     <Text Include="src\shaders\outline_vertex_shader.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\textures\blocks.ase" />
-    <None Include="src\textures\player.ase" />
+    <Text Include="src\shaders\parallax_vertex_shader.txt" />
+    <Text Include="src\shaders\parallax_fragment_shader.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\blocks.png">

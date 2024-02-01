@@ -64,13 +64,13 @@ bool doCollide(float blockID, bool redButtonIsPressed, bool greenButtonIsPressed
 	return true;
 }
 
-void die(Shader tile_shader, Shader player_shader);
+void die(Shader tile_shader, Shader player_shader, Shader parallax_shader);
 
-void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader) {
+void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader, Shader parallax_shader) {
 	if (blockID == 0.4f || blockID == 0.5f) { red = true; }
 	if (blockID == 0.6f || blockID == 0.7f) { green = true; }
 	if (blockID == 0.8f || blockID == 0.9f) { blue = true; }
-	if (blockID >= 1.6f && blockID <= 2.0f) { die(tile_shader, player_shader); }
+	if (blockID >= 1.6f && blockID <= 2.0f) { die(tile_shader, player_shader, parallax_shader); }
 }
 
 class gameState {
@@ -145,12 +145,12 @@ void setBlockSize(float bx, float by, float w, float h) {
 	height = h;
 }
 
-void die(Shader tile_shader, Shader player_shader) {
+void die(Shader tile_shader, Shader player_shader, Shader parallax_shader) {
 	colorMultiplier[0] = 0.9f;
 	colorMultiplier[1] = 0.5f;
 	colorMultiplier[2] = 0.5f;
 	int index = gameTime;
-	int speed = 4;
+	int speed = 1;
 	int count = 0;
 	while (index > 10) {
 		index -= speed;
@@ -161,7 +161,7 @@ void die(Shader tile_shader, Shader player_shader) {
 		bool cGreen = currentGameState.getGreenButton();
 		bool cBlue = currentGameState.getBlueButton();
 
-		render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier);
+		render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
 	}
 
 	colorMultiplier[0] = 1.0f;
@@ -196,6 +196,7 @@ int gameMain(int levelID) {
 	int success = rendererInit(true);
 	Shader tile_shader = makeTileShader();
 	Shader player_shader = makePlayerShader();
+	Shader parallax_shader = makeParallaxShader();
 	
 	vector<vector<float>> tilemap = loadLevel(levelID);
 	float movementMultiplier, fps;
@@ -275,7 +276,8 @@ int gameMain(int levelID) {
 		//GL render function [see renderer.cpp and .h]. Updates buffers, draws triangles.
 		deltaTime = render(playerX, playerY, tile_shader, player_shader, 
 			playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector,
-			redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed, colorMultiplier);
+			redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed, colorMultiplier,
+			parallax_shader);
 	
 		//Add our current game state to the timeline. [If this is a new gameframe].
 		if (gameTime == latestTimeReached) { timeline.push_back(currentGameState); }
@@ -354,7 +356,7 @@ int gameMain(int levelID) {
 
 		if (targetY - playerY < blockY / 8 && !dashing) {
 			if (((blockType >= 1.6f && blockType <= 2.0f) || blockType == 0.0f) && ((blockType2 >= 1.6f && blockType2 <= 2.0f) || blockType2 == 0.0f)) {
-				if (!(blockType + blockType2 == 0.0f)) { die(tile_shader, player_shader); }
+				if (!(blockType + blockType2 == 0.0f)) { die(tile_shader, player_shader, parallax_shader); }
 			}
 		}
 
@@ -442,13 +444,13 @@ int gameMain(int levelID) {
 
 		//Check for button presses
 		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinus];
-		parseSpecialBlocks(blockType, tile_shader, player_shader);
+		parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexPlus];
-		parseSpecialBlocks(blockType, tile_shader, player_shader);
+		parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 
 		//Right wall @ foot level (when moving right)
 		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinusBig];
-		//parseSpecialBlocks(blockType, tile_shader, player_shader);
+		//parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
 			if (playerXVelocity < 0.0f) {
 				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
@@ -462,7 +464,7 @@ int gameMain(int levelID) {
 		}
 
 		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
-		//parseSpecialBlocks(blockType, tile_shader, player_shader);
+		//parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 
 		bool onWall = false;
 
@@ -610,7 +612,8 @@ int gameMain(int levelID) {
 				bool cGreen = currentGameState.getGreenButton();
 				bool cBlue = currentGameState.getBlueButton();
 				
-				render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier);
+				render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), 
+					currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
 			}
 			gameTime = index;
 			gameState currentGameState = timeline[gameTime];
