@@ -140,7 +140,8 @@ void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader,
 	if (blockID == 0.8f || blockID == 0.9f) { blue = true; }
 	if (blockID >= 1.6f && blockID <= 1.9f) { die(tile_shader, player_shader, parallax_shader); }
 	if (blockID == 2.0f) {
-		tilemap = loadLevel(LID + 1);
+		LID++;
+		tilemap = loadLevel(LID);
 		updateTilemap(tilemap);
 		int* levelData = loadLevelData(LID);
 		startX = blockX * levelData[2] * -1;
@@ -649,18 +650,7 @@ int gameMain(int levelID) {
 			while (getKey(GLFW_KEY_T)) {
 				count++;
 				index -= speed;
-				if (count > 60 && speed < 2) {
-					speed++;
-				}
-				if (count > 80 && speed < 3) {
-					speed++;
-				}
-				if (count > 100 && speed < 4) {
-					speed++;
-				}
-				if (count > 120 && speed < 5) {
-					speed++;
-				}
+				
 				gameState currentGameState = timeline[index];
 				float pX = currentGameState.getXData().back();
 				float pY = currentGameState.getYData().back();
@@ -668,9 +658,21 @@ int gameMain(int levelID) {
 				bool cGreen = currentGameState.getGreenButton();
 				bool cBlue = currentGameState.getBlueButton();
 				
-				render(playerX, playerY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), 
+				colorMultiplier[0] = 0.5f;
+				colorMultiplier[1] = 0.5f;
+				colorMultiplier[2] = 0.5f;
+
+				float dx = (playerX - pX) / 2;
+				float dy = (playerY - pY) / 2;
+
+				if (abs(dx) < blockX && abs(dy) < blockY) { index -= 5; }
+
+				render(playerX - dx, playerY - dy, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), 
 					currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
 			}
+			colorMultiplier[0] = 1.0f;
+			colorMultiplier[1] = 1.0f;
+			colorMultiplier[2] = 1.0f;
 			gameTime = index;
 			gameState currentGameState = timeline[gameTime];
 			playerX = currentGameState.getXData().front();
