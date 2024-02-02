@@ -153,7 +153,6 @@
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\levels\0\tilemap.txt" />
     <Text Include="src\shaders\outline_fragment_shader.txt" />
     <Text Include="src\shaders\outline_vertex_shader.txt" />
     <Text Include="src\shaders\parallax_fragment_shader.txt" />

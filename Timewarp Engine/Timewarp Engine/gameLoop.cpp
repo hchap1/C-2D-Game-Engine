@@ -26,6 +26,8 @@ bool canDoubleJump = true;
 bool canWallJump = true;
 bool canDash = true;
 
+int LID;
+
 int dashEnd = 0;
 int nextDash = 0;
 int gameTime = 0;
@@ -61,6 +63,7 @@ bool doCollide(float blockID, bool redButtonIsPressed, bool greenButtonIsPressed
 	if ((blockID == 1.0f && redButtonIsPressed) || (blockID == 1.2f && greenButtonIsPressed) || (blockID == 1.4f && blueButtonIsPressed)) {
 		return false;
 	}
+	if (blockID == 2.0f) { return false; }
 	return true;
 }
 
@@ -70,7 +73,16 @@ void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader,
 	if (blockID == 0.4f || blockID == 0.5f) { red = true; }
 	if (blockID == 0.6f || blockID == 0.7f) { green = true; }
 	if (blockID == 0.8f || blockID == 0.9f) { blue = true; }
-	if (blockID >= 1.6f && blockID <= 2.0f) { die(tile_shader, player_shader, parallax_shader); }
+	if (blockID >= 1.6f && blockID <= 1.9f) { die(tile_shader, player_shader, parallax_shader); }
+	if (blockID == 2.0f) {
+		vector<vector<float>> tilemap = loadLevel(LID);
+		updateTilemap(tilemap);
+		int* levelData = loadLevelData(LID);
+		startX = blockX * levelData[2] * -1;
+		startY = blockY * levelData[3] * -1;
+		playerX = startX;
+		playerY = startY;
+	}
 }
 
 class gameState {
@@ -161,7 +173,7 @@ void die(Shader tile_shader, Shader player_shader, Shader parallax_shader) {
 		bool cGreen = currentGameState.getGreenButton();
 		bool cBlue = currentGameState.getBlueButton();
 
-		render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
+		render(playerX, playerY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
 	}
 
 	colorMultiplier[0] = 1.0f;
@@ -181,6 +193,7 @@ void die(Shader tile_shader, Shader player_shader, Shader parallax_shader) {
 }
 
 int gameMain(int levelID) {
+	LID = levelID;
 	msPerFrame = 1 / targetFps;
 
 	float deltaTime;
@@ -327,6 +340,7 @@ int gameMain(int levelID) {
 		//Potentially offset the indices of the blocks in the middle of the screen if the player covers more than one block.
 		int tempIndexMinus = static_cast<int>((playerX - blockX * 0.49f) * (blocksOnHalfScreenX * -1));
 		int tempIndexPlus = static_cast<int>((playerX + blockX * 0.49f) * (blocksOnHalfScreenX * -1));
+		int tempIndexPlusBig = static_cast<int>((playerX + blockX * 0.5f) * (blocksOnHalfScreenX * -1));
 		int tempIndexMinusBig = static_cast<int>((playerX - blockX * 0.5f) * (blocksOnHalfScreenX * -1));
 
 		//For obstacle detection, crouch forcing, ect. Gives more clearance on either side of player.
@@ -355,7 +369,7 @@ int gameMain(int levelID) {
 		float targetY = indexOfFirstBlockY * blockY * -1;
 
 		if (targetY - playerY < blockY / 8 && !dashing) {
-			if (((blockType >= 1.6f && blockType <= 2.0f) || blockType == 0.0f) && ((blockType2 >= 1.6f && blockType2 <= 2.0f) || blockType2 == 0.0f)) {
+			if (((blockType >= 1.6f && blockType <= 1.9f) || blockType == 0.0f) && ((blockType2 >= 1.6f && blockType2 <= 1.9f) || blockType2 == 0.0f)) {
 				if (!(blockType + blockType2 == 0.0f)) { die(tile_shader, player_shader, parallax_shader); }
 			}
 		}
@@ -422,18 +436,33 @@ int gameMain(int levelID) {
 
 
 		//Move on to x calculations. The Y was done first because we know any incurred collisions were a result of y changes.
+		bool onWall = false;
 		playerX += playerXVelocity * movementMultiplier;
 		if (!dashing) { playerXVelocity *= 0.9f; }
 		else { (playerXVelocity = blockX * dashDirection * movementMultiplier * 300.0f); }
-
-		//Check for blocks in your lower half for X axis collisions.
-		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
+		
+		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinus];
+		parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
+		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexPlus];
+		parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 
 		//Left wall @ foot level
+		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
 		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
+			onWall = true;
+			float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+			canDoubleJump = true;
+			canDash = true;
+			if (targetX - playerX < blockX * 0.05f) {
+				canWallJump = true;
+			}
+			if (!getKey(GLFW_KEY_A)) { canWallJump = false; onWall = false; }
+			if (!dashing) { dashDirection = -1; }
+
 			if (playerXVelocity > 0.0f) {
-				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+
 				if (targetX - playerX < 0) {
+					parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 					playerX = targetX;
 					playerXVelocity = 0.0f;
 					dashEnd = 0;
@@ -442,18 +471,23 @@ int gameMain(int levelID) {
 			}
 		}
 
-		//Check for button presses
-		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinus];
-		parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
-		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexPlus];
-		parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
+		//Check for button presses.
 
 		//Right wall @ foot level (when moving right)
 		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinusBig];
-		//parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
+			onWall = true;
+			canDoubleJump = true;
+			canDash = true;
+			float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+			if (targetX - playerX > blockX * -0.05f) {
+				canWallJump = true;
+			}
+			if (!getKey(GLFW_KEY_D)) { canWallJump = false; onWall = false; }
+			if (!dashing) { dashDirection = 1; }
+
 			if (playerXVelocity < 0.0f) {
-				float targetX = indexOfFirstBlockX * blockX * -1 - blockX * 0.5f;
+
 				if (targetX - playerX > 0) {
 					playerX = targetX;
 					playerXVelocity = 0.0f;
@@ -466,10 +500,14 @@ int gameMain(int levelID) {
 		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
 		//parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 
-		bool onWall = false;
+		
 
 		//Only check for head collisions if !crouching
 		if (!crouching) {
+			blockType = tilemap[indexOfBlockAboveHead][tempIndexMinus];
+			parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
+			blockType = tilemap[indexOfBlockAboveHead][tempIndexPlus];
+			parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
 			//Left wall @ head level
 			//blockType = tilemap[indexOfFirstBlockY][indexOfFirstBlockX - 1];
 			blockType = tilemap[indexOfBlockAboveHead][indexOfFirstBlockX - 1];
@@ -621,6 +659,10 @@ int gameMain(int levelID) {
 			playerY = currentGameState.getYData().front();
 			playerXVelocity = 0.0f;
 			playerYVelocity = 0.0f;
+			dashEnd = gameTime;
+			nextDash = gameTime;
 		}
+
+		std::cout << "FPS: " << fps << std::endl;
 	}
 }

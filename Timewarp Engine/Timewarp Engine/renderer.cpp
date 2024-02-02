@@ -15,6 +15,7 @@ int globalScreenHeight = 800;
 
 float blockWidth;
 float blockHeight;
+float sizeX, sizeY;
 
 bool isPixelArt = true;
 
@@ -174,8 +175,8 @@ int rendererInit(bool isGame) {
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); //backgroundID
         glEnableVertexAttribArray(2);
-        float sizeX = 100.0f / globalScreenWidth * 60.0f;
-        float sizeY = 100.0f / globalScreenHeight * 15.0f;
+        sizeX = 100.0f / globalScreenWidth * 60.0f;
+        sizeY = 100.0f / globalScreenHeight * 15.0f;
 
         std::cout << "SIZE X: " << globalScreenWidth << std::endl;
 
@@ -436,6 +437,7 @@ float render(float playerX, float playerY,
     glBindVertexArray(BVAO);
     glBindTexture(GL_TEXTURE_2D, background0Texture);
     parallax_shader.use();
+    parallax_shader.setFloat("size", sizeX);
     parallax_shader.setFloat("cameraX", playerX);
     parallax_shader.setFloat("cameraY", playerY);
     glDrawArrays(GL_TRIANGLES, 0, 6 * sizeof(float));
@@ -461,7 +463,6 @@ float render(float playerX, float playerY,
     player_shader.use();
     player_shader.setFloat("cameraX", playerX);
     player_shader.setFloat("cameraY", playerY);
-
     glBindTexture(GL_TEXTURE_2D, playerTexture);
     int numTriangles = updatePlayerPositions(playerSpriteXPositions, playerSpriteYPositions, playerCrouchingVector, playerX, playerY);
     glDrawArrays(GL_TRIANGLES, 0, numTriangles * 3);

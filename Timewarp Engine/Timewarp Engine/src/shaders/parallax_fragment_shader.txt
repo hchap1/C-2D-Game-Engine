@@ -1,11 +1,12 @@
 #version 330 core
 
 in vec2 TexCoord;
-in float lightVal;
+in vec2 pos;
 
 uniform sampler2D blockTexture;
 out vec4 FragColor;
 
 void main() {
-	FragColor = texture(blockTexture, TexCoord) * 0.5;
+	vec4 tx = texture(blockTexture, TexCoord);
+	FragColor = tx;
 }
