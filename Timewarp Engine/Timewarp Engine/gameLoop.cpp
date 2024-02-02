@@ -39,52 +39,6 @@ float startX, startY;
 float playerX, playerY;
 float playerXVelocity;
 float playerYVelocity;
-
-float colorMultiplier[3] = { 1.0f, 1.0f, 1.0f };
-/*
-map<std::string, float> blockIDs = {
-	"RedButton":0.4f
-}
-*/
-int dashDirection = 0;
-
-bool spaceDown = false;
-bool spaceTracker = false;
-
-bool apostropheDown = false;
-bool apostropheTracker = false;
-
-using namespace std;
-
-bool doCollide(float blockID, bool redButtonIsPressed, bool greenButtonIsPressed, bool blueButtonIsPressed) {
-	if (blockID == 0.0f || (blockID >= 0.4f && blockID <= 0.9f)) {
-		return false;
-	}
-	if ((blockID == 1.0f && redButtonIsPressed) || (blockID == 1.2f && greenButtonIsPressed) || (blockID == 1.4f && blueButtonIsPressed)) {
-		return false;
-	}
-	if (blockID == 2.0f) { return false; }
-	return true;
-}
-
-void die(Shader tile_shader, Shader player_shader, Shader parallax_shader);
-
-void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader, Shader parallax_shader) {
-	if (blockID == 0.4f || blockID == 0.5f) { red = true; }
-	if (blockID == 0.6f || blockID == 0.7f) { green = true; }
-	if (blockID == 0.8f || blockID == 0.9f) { blue = true; }
-	if (blockID >= 1.6f && blockID <= 1.9f) { die(tile_shader, player_shader, parallax_shader); }
-	if (blockID == 2.0f) {
-		vector<vector<float>> tilemap = loadLevel(LID);
-		updateTilemap(tilemap);
-		int* levelData = loadLevelData(LID);
-		startX = blockX * levelData[2] * -1;
-		startY = blockY * levelData[3] * -1;
-		playerX = startX;
-		playerY = startY;
-	}
-}
-
 class gameState {
 public:
 
@@ -97,10 +51,10 @@ public:
 		blueButton = false;
 	}
 
-	gameState(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> isCrouching, 
+	gameState(std::vector<float> pXP, std::vector<float> pYP, std::vector<bool> isCrouching,
 		bool redButtonPressed, bool greenButtonPressed, bool blueButtonPressed)
 		: playerXPositions(pXP), playerYPositions(pYP), crouching(isCrouching), redButton(redButtonPressed),
-		greenButton(greenButtonPressed), blueButton(blueButtonPressed){
+		greenButton(greenButtonPressed), blueButton(blueButtonPressed) {
 	}
 
 	void addPosition(float px, float py, bool isCrouching, bool redButtonPressed,
@@ -147,7 +101,68 @@ private:
 	bool blueButton;
 };
 
+
+vector<vector<float>> tilemap;
 std::vector<gameState> timeline;
+
+float colorMultiplier[3] = { 1.0f, 1.0f, 1.0f };
+/*
+map<std::string, float> blockIDs = {
+	"RedButton":0.4f
+}
+*/
+int dashDirection = 0;
+
+bool spaceDown = false;
+bool spaceTracker = false;
+
+bool apostropheDown = false;
+bool apostropheTracker = false;
+
+using namespace std;
+
+bool doCollide(float blockID, bool redButtonIsPressed, bool greenButtonIsPressed, bool blueButtonIsPressed) {
+	if (blockID == 0.0f || (blockID >= 0.4f && blockID <= 0.9f)) {
+		return false;
+	}
+	if ((blockID == 1.0f && redButtonIsPressed) || (blockID == 1.2f && greenButtonIsPressed) || (blockID == 1.4f && blueButtonIsPressed)) {
+		return false;
+	}
+	if (blockID == 2.0f) { return false; }
+	return true;
+}
+
+void die(Shader tile_shader, Shader player_shader, Shader parallax_shader);
+
+void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader, Shader parallax_shader) {
+	if (blockID == 0.4f || blockID == 0.5f) { red = true; }
+	if (blockID == 0.6f || blockID == 0.7f) { green = true; }
+	if (blockID == 0.8f || blockID == 0.9f) { blue = true; }
+	if (blockID >= 1.6f && blockID <= 1.9f) { die(tile_shader, player_shader, parallax_shader); }
+	if (blockID == 2.0f) {
+		tilemap = loadLevel(LID + 1);
+		updateTilemap(tilemap);
+		int* levelData = loadLevelData(LID);
+		startX = blockX * levelData[2] * -1;
+		startY = blockY * levelData[3] * -1;
+
+		colorMultiplier[0] = 1.0f;
+		colorMultiplier[1] = 1.0f;
+		colorMultiplier[2] = 1.0f;
+
+		playerX = startX;
+		playerY = startY;
+		playerXVelocity = 0.0f;
+		playerYVelocity = 0.0f;
+		timeline.clear();
+		gameTime = 0;
+		latestTimeReached = 0;
+		dashEnd = 0;
+		dashing = false;
+		nextDash = 0;
+
+	}
+}
 
 void setBlockSize(float bx, float by, float w, float h) {
 	blockX = bx;
@@ -166,6 +181,9 @@ void die(Shader tile_shader, Shader player_shader, Shader parallax_shader) {
 	int count = 0;
 	while (index > 10) {
 		index -= speed;
+		if (getKey(GLFW_KEY_SPACE)) {
+			index -= 3;
+		}
 		gameState currentGameState = timeline[index];
 		float pX = currentGameState.getXData().back();
 		float pY = currentGameState.getYData().back();
@@ -211,7 +229,7 @@ int gameMain(int levelID) {
 	Shader player_shader = makePlayerShader();
 	Shader parallax_shader = makeParallaxShader();
 	
-	vector<vector<float>> tilemap = loadLevel(levelID);
+	tilemap = loadLevel(levelID);
 	float movementMultiplier, fps;
 
 	updateTilemap(tilemap);
@@ -650,7 +668,7 @@ int gameMain(int levelID) {
 				bool cGreen = currentGameState.getGreenButton();
 				bool cBlue = currentGameState.getBlueButton();
 				
-				render(pX, pY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), 
+				render(playerX, playerY, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), 
 					currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
 			}
 			gameTime = index;
