@@ -643,33 +643,47 @@ int gameMain(int levelID) {
 			canDash = false;
 		}
 
+		gameState cGS;
+
 		if (getKey(GLFW_KEY_T)) {
+			float pX, pY, cRed, cGreen, cBlue, dx, dy;
 			int index = gameTime;
 			int speed = 1;
 			int count = 0;
-			while (getKey(GLFW_KEY_T)) {
+			while (getKey(GLFW_KEY_T) && index > 10) {
 				count++;
 				index -= speed;
 				
-				gameState currentGameState = timeline[index];
-				float pX = currentGameState.getXData().back();
-				float pY = currentGameState.getYData().back();
-				bool cRed = currentGameState.getRedButton();
-				bool cGreen = currentGameState.getGreenButton();
-				bool cBlue = currentGameState.getBlueButton();
+				cGS = timeline[index];
+				pX = cGS.getXData().back();
+				pY = cGS.getYData().back();
+				cRed = cGS.getRedButton();
+				cGreen = cGS.getGreenButton();
+				cBlue = cGS.getBlueButton();
 				
-				colorMultiplier[0] = 0.5f;
-				colorMultiplier[1] = 0.5f;
-				colorMultiplier[2] = 0.5f;
+				colorMultiplier[0] = 1.5f;
+				colorMultiplier[1] = 1.5f;
+				colorMultiplier[2] = 1.5f;
 
-				float dx = (playerX - pX) / 2;
-				float dy = (playerY - pY) / 2;
+				dx = (playerX - pX) / 2;
+				dy = (playerY - pY) / 2;
 
-				if (abs(dx) < blockX && abs(dy) < blockY) { index -= 5; }
+				if (abs(dx) < blockX / 4 && abs(dy) < blockY / 4) { index -= 5; }
 
-				render(playerX - dx, playerY - dy, tile_shader, player_shader, currentGameState.getXData(), currentGameState.getYData(), 
-					currentGameState.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
+				render(playerX - dx, playerY - dy, tile_shader, player_shader, cGS.getXData(), cGS.getYData(), 
+					cGS.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
 			}
+
+			float stepX = (dx / 30);
+			float stepY = (dy / 30);
+
+			for (int i = 0; i < 30; i++) {
+				dx += stepX;
+				dy += stepY;
+				render(playerX - dx, playerY - dy, tile_shader, player_shader, cGS.getXData(), cGS.getYData(),
+					cGS.getCrouching(), cRed, cGreen, cBlue, colorMultiplier, parallax_shader);
+			}
+
 			colorMultiplier[0] = 1.0f;
 			colorMultiplier[1] = 1.0f;
 			colorMultiplier[2] = 1.0f;
