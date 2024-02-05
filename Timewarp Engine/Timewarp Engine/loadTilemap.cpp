@@ -5,22 +5,22 @@
 #include <TIMEWARP ENGINE\loadTilemap.h>
 #include <algorithm>
 
-std::vector<std::vector<float>> loadLevel(int levelID) {
+std::vector<std::vector<int>> loadTilemap(int levelID) {
     const std::string filename = "src/levels/" + std::to_string(levelID) + "/tilemap.txt";
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
     }
 
-    std::vector<std::vector<float>> tilemap;
+    std::vector<std::vector<int>> tilemap;
 
     std::string line;
     while (std::getline(file, line)) {
         std::istringstream iss(line);
-        float number;
-        std::vector<float> row;
+        int number;
+        std::vector<int> row;
         while (iss >> number) {
-            row.push_back(static_cast<float>(number / 10));
+            row.push_back(number);
         }
 
         // Append row

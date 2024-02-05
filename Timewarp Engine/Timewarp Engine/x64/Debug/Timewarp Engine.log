@@ -1,32 +1,13 @@
-﻿  gameLoop.cpp
-  levelEditor.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-  (compiling source file 'levelEditor.cpp')
-  C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\GLAD\glad.h(32,1):
-  see previous definition of 'APIENTRY'
-  
+﻿  newGameloop.cpp
   newRenderer.cpp
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(15,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(16,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(17,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(35,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(18,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(19,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(42,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(49,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(56,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(63,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(70,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(94,42): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(94,33): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(94,24): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-  renderer.cpp
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(226,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(273,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(273,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(277,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(277,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(364,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(448,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\renderer.cpp(477,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\newRenderer.cpp(77,39): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Generating Code...
-C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\levelEditor.cpp(50): warning C4172: returning address of local variable or temporary: data
   Timewarp Engine.vcxproj -> C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\x64\Debug\Timewarp Engine.exe

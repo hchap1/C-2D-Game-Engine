@@ -1,4 +1,4 @@
-#define STB_IMAGE_IMPLEMENTATION
+/*#define STB_IMAGE_IMPLEMENTATION
 #include <GLAD\glad.h>
 #include <GLFW\glfw3.h>
 #include <iostream>
@@ -497,4 +497,4 @@ float tilemapRender(float playerX, float playerY, std::vector<std::vector<float>
     glfwSwapBuffers(window);
     glfwPollEvents();
     return deltaTime;
-}
+}*/

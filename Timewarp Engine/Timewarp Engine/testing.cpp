@@ -1,14 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <TERMCOLOR/termcolor.hpp>
 using namespace std;
 
-int msain() {
-	vector<int> myVector;
-
-	for (int i = 0; i < 10; i++) {
-		myVector.push_back(i);
-	}
-
-	const int size = myVector.size();
+int maasdin() {
+	cout << colour::red << "SUCCESS?" << endl;
 	return 0;
 }

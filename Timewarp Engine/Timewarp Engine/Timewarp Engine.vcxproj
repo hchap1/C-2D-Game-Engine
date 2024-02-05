@@ -133,6 +133,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="handleStart.cpp" />
     <ClCompile Include="levelEditor.cpp" />
+    <ClCompile Include="newGameloop.cpp" />
     <ClCompile Include="newRenderer.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="loadTilemap.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\levelEditor.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\newRenderer.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
   <ItemGroup>

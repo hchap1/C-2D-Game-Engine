@@ -39,6 +39,9 @@
     <ClCompile Include="newRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="newGameloop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TIMEWARP ENGINE\levelEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\newRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

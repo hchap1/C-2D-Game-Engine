@@ -1,11 +1,11 @@
-#include <TIMEWARP ENGINE\gameLoop.h>
+/*#include <TIMEWARP ENGINE\gameLoop.h>
 #include <TIMEWARP ENGINE\levelEditor.h>
 #include <string>
 #include <iostream>
 #include <locale>
 using namespace std;
 
-int main() {
+int mainx() {
 	string userInput;
 	int levelID;
 
@@ -23,4 +23,4 @@ int main() {
 	else if (choice == "l") {
 		levelMain(levelID);
 	}
-}
+}*/

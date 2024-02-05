@@ -1,3 +1,4 @@
+/*
 #include <TIMEWARP ENGINE\loadTilemap.h>
 #include <iostream>
 #include <vector>
@@ -106,11 +107,11 @@ vector<vector<float>> tilemap;
 std::vector<gameState> timeline;
 
 float colorMultiplier[3] = { 1.0f, 1.0f, 1.0f };
-/*
+
 map<std::string, float> blockIDs = {
 	"RedButton":0.4f
 }
-*/
+
 int dashDirection = 0;
 
 bool spaceDown = false;
@@ -141,7 +142,7 @@ void parseSpecialBlocks(float blockID, Shader tile_shader, Shader player_shader,
 	if (blockID >= 1.6f && blockID <= 1.9f) { die(tile_shader, player_shader, parallax_shader); }
 	if (blockID == 2.0f) {
 		LID++;
-		tilemap = loadLevel(LID);
+		tilemap = loadTilemap(LID);
 		updateTilemap(tilemap);
 		int* levelData = loadLevelData(LID);
 		startX = blockX * levelData[2] * -1;
@@ -230,7 +231,7 @@ int gameMain(int levelID) {
 	Shader player_shader = makePlayerShader();
 	Shader parallax_shader = makeParallaxShader();
 	
-	tilemap = loadLevel(levelID);
+	tilemap = loadTilemap(levelID);
 	float movementMultiplier, fps;
 
 	updateTilemap(tilemap);
@@ -698,3 +699,4 @@ int gameMain(int levelID) {
 		std::cout << "FPS: " << fps << std::endl;
 	}
 }
+*/
