@@ -175,8 +175,8 @@ int rendererInit(bool isGame) {
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); //backgroundID
         glEnableVertexAttribArray(2);
-        sizeX = 100.0f / globalScreenWidth * 60.0f;
-        sizeY = 100.0f / globalScreenHeight * 15.0f;
+        sizeX = 50.0f / globalScreenWidth * 60.0f;
+        sizeY = 50.0f / globalScreenHeight * 15.0f;
 
         std::cout << "SIZE X: " << globalScreenWidth << std::endl;
 

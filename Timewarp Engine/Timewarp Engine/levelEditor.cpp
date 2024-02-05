@@ -165,10 +165,12 @@ void levelMain(int levelID) {
         if (getKey(GLFW_KEY_MINUS)) { decrease++; }
         else { decrease = 0; }
 
-        if (up == 1 || up > speed) { playerY -= bH; }
-        if (down == 1 || down > speed) { playerY += bH; }
-        if (right == 1 || right > speed) { playerX -= bW; }
-        if (left == 1 || left > speed) { playerX += bW; }
+        std::cout << "PLAYER Y: " << playerY << " bH * height: " << height * bH * -1 << std::endl;
+
+        if ((up == 1 || up > speed) && playerY > bH * height * -1 + bH) { playerY -= bH; }
+        if ((down == 1 || down > speed) && playerY < - bH) { playerY += bH; }
+        if ((right == 1 || right > speed) && playerX > bW * width *-1 + bW) { playerX -= bW; }
+        if ((left == 1 || left > speed) && playerX < -bW) { playerX += bW; }
 
         //Calculate the closest X to the player [index].
         int blocksOnHalfScreenX = static_cast<int>(1 / bW);
