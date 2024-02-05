@@ -133,6 +133,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="handleStart.cpp" />
     <ClCompile Include="levelEditor.cpp" />
+    <ClCompile Include="newRenderer.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="loadTilemap.cpp" />
     <ClCompile Include="testing.cpp" />

@@ -381,7 +381,7 @@ int gameMain(int levelID) {
 		//if the player collided with it whilst moving downwards.
 
 
-		//First et the block type [float] of the block below your 'right' foot and below your 'left' foot for spike testing.
+		//First get the block type [float] of the block below your 'right' foot and below your 'left' foot for spike testing.
 		blockType = tilemap[indexOfFirstBlockY - 2][tempIndexMinusSmall];
 		blockType2 = tilemap[indexOfFirstBlockY - 2][tempIndexPlusSmall];
 
@@ -489,8 +489,6 @@ int gameMain(int levelID) {
 
 			}
 		}
-
-		//Check for button presses.
 
 		//Right wall @ foot level (when moving right)
 		blockType = tilemap[indexOfFirstBlockY - 1][tempIndexMinusBig];

@@ -1,0 +1,168 @@
+#include <GLAD/glad.h>
+#include <GLFW/glfw3.h>
+#include <tuple>
+#include <vector>
+#include <iostream>
+#include <numeric>
+#include <SHADER CLASS/shader.h>
+#include <STB/stb_image.h>
+
+using namespace std;
+
+tuple<float*, int> tilemapDecoder(vector<vector<int>> tilemap, int tileTextureSize, int windowWidth, int windowHeight) {
+    int numOfTriangles = 0;
+
+    float xScale = 100 / windowWidth;
+    float yScale = 100 / windowHeight;
+    float offset = 1 - (1 / tileTextureSize);
+    float yOffset;
+
+    float vertexData[sizeof(tilemap) * 30] = {};
+    int index = 0;
+    int tileType = 0;
+
+    for (int height = 0; height < tilemap.size(); height++) {
+        for (int width = 0; width < tilemap[0].size(); width++) {
+            tileType = tilemap[height][width];
+            yOffset = offset * tileType;
+            if (tileType != 0) {
+                numOfTriangles += 2;
+                //Bottom left
+                vertexData[index++] = width * xScale;
+                vertexData[index++] = height * yScale;
+                vertexData[index++] = 0;
+                vertexData[index++] = yOffset;
+                vertexData[index++] = tileType;
+
+                //Top left
+                vertexData[index++] = width * xScale;
+                vertexData[index++] = height * yScale + yScale;
+                vertexData[index++] = 0;
+                vertexData[index++] = yOffset + offset;
+                vertexData[index++] = tileType;
+
+                //Bottom left
+                vertexData[index++] = width * xScale + xScale;
+                vertexData[index++] = height * yScale;
+                vertexData[index++] = 1;
+                vertexData[index++] = yOffset;
+                vertexData[index++] = tileType;
+
+                //Top right
+                vertexData[index++] = width * xScale + xScale;
+                vertexData[index++] = height * yScale + yScale;
+                vertexData[index++] = 1;
+                vertexData[index++] = yOffset + offset;
+                vertexData[index++] = tileType;
+
+                //Top left
+                vertexData[index++] = width * xScale;
+                vertexData[index++] = height * yScale + yScale;
+                vertexData[index++] = 0;
+                vertexData[index++] = yOffset + offset;
+                vertexData[index++] = tileType;
+
+                //Bottom left
+                vertexData[index++] = width * xScale + xScale;
+                vertexData[index++] = height * yScale;
+                vertexData[index++] = 1;
+                vertexData[index++] = yOffset;
+                vertexData[index++] = tileType;
+            }
+        }
+    }
+    tuple<float*, int> dataReturn(vertexData, numOfTriangles);
+    return dataReturn;
+}
+
+class Renderer {
+public:
+    Renderer(int width, int height, string windowName) {
+        glfwInit();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        window = glfwCreateWindow(width, height, windowName.c_str(), NULL, NULL);
+        glfwMakeContextCurrent(window);
+        gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    void fillScreen(int r, int g, int b) {
+        glClearColor(r / 255, g / 255, b / 255, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+private:
+    GLFWwindow* window;
+    int width, height;
+    float blockWidth, blockHeight;
+};
+
+class RenderLayer {
+public:
+	RenderLayer() {}
+	RenderLayer(vector<int> attributes, string shaderName, string textureName) {
+        //Create & bind buffers
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        
+        //Set up vertex attributes
+        int offset = 0;
+        int count = 0;
+        int step = accumulate(attributes.begin(), attributes.end(), 0);
+        for (int attribSize : attributes) {
+            glVertexAttribPointer(count, attribSize, GL_FLOAT, GL_FALSE, step * sizeof(float), (void*)(offset * sizeof(float)));
+            glEnableVertexAttribArray(count);
+            count++;
+            offset += attribSize;
+
+        //Create empty texture
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        //Set filtering options (pixel art)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); }
+
+        //Load the image file
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load(("src/textures/" + textureName).c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+
+        //Bind image data to texture obj
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+       
+        //Free the image data to avoid memory leaks
+        stbi_image_free(data);
+
+        //Create shader obj for this rendering layer
+        string vertexPath = "src/shaders/" + shaderName + "_vertex_shader.txt";
+        string fragmentPath = "src/shaders/" + shaderName + "_fragment_shader.txt";
+        shader = Shader(vertexPath.c_str(), fragmentPath.c_str());
+	}
+
+    void setVertices(float* vertices, unsigned int mode) {
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, mode);
+    }
+
+    void draw(int numTriangles) {
+        glBindVertexArray(VAO);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glDrawArrays(GL_TRIANGLES, 0, numTriangles * sizeof(float));
+    }
+
+private:
+	unsigned int VBO;
+	unsigned int VAO;
+	unsigned int texture;
+	Shader shader;
+};
