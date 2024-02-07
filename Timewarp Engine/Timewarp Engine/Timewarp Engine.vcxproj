@@ -150,9 +150,11 @@
     <ClInclude Include="include\SHADER CLASS\shader.h" />
     <ClInclude Include="include\STB\stb_image.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\gameLoop.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\gameState.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\levelEditor.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\loadTilemap.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\newRenderer.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\player.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +164,8 @@
     <Text Include="src\shaders\parallax_vertex_shader.txt" />
     <Text Include="src\shaders\player_fragment_shader.txt" />
     <Text Include="src\shaders\player_vertex_shader.txt" />
-    <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
-    <Text Include="src\shaders\simple_tile_vertex_shader.txt" />
+    <Text Include="src\shaders\simple_fragment_shader.txt" />
+    <Text Include="src\shaders\simple_vertex_shader.txt" />
     <Text Include="src\shaders\tile_fragment_shader.txt" />
     <Text Include="src\shaders\tile_vertex_shader.txt" />
     <Text Include="testFile.txt" />

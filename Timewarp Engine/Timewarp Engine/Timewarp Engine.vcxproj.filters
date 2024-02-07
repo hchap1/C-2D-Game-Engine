@@ -80,19 +80,25 @@
     <ClInclude Include="include\TIMEWARP ENGINE\newRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\gameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="testFile.txt" />
-    <Text Include="src\shaders\tile_vertex_shader.txt" />
-    <Text Include="src\shaders\tile_fragment_shader.txt" />
     <Text Include="src\shaders\player_fragment_shader.txt" />
     <Text Include="src\shaders\player_vertex_shader.txt" />
-    <Text Include="src\shaders\simple_tile_vertex_shader.txt" />
-    <Text Include="src\shaders\simple_tile_fragment_shader.txt" />
     <Text Include="src\shaders\outline_fragment_shader.txt" />
     <Text Include="src\shaders\outline_vertex_shader.txt" />
     <Text Include="src\shaders\parallax_vertex_shader.txt" />
     <Text Include="src\shaders\parallax_fragment_shader.txt" />
+    <Text Include="src\shaders\tile_fragment_shader.txt" />
+    <Text Include="src\shaders\tile_vertex_shader.txt" />
+    <Text Include="src\shaders\simple_fragment_shader.txt" />
+    <Text Include="src\shaders\simple_vertex_shader.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\blocks.png">

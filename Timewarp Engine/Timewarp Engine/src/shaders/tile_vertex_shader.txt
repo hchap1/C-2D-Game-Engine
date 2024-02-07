@@ -1,38 +1,15 @@
 #version 330 core
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec2 aPos;
 layout (location = 1) in vec2 aTexCoord;
 layout (location = 2) in float blockID;
 
-out vec3 Color;
 out vec2 TexCoord;
-out float lightVal;
 
 uniform float cameraX;
 uniform float cameraY;
-uniform bool red;
-uniform bool green;
-uniform bool blue;
-uniform vec3 colorMultiplier;
 
 void main(){
-	float blockOffset = blockID;
-	if (red && blockID == 4.0) { blockOffset = 5; }
-	if (green && blockID == 6.0) { blockOffset = 7; }
-	if (blue && blockID == 8.0) { blockOffset = 9; }
-
-	if (red && blockID == 10.0){ blockOffset = 11.0; }
-	if (green && blockID == 12.0){ blockOffset = 13.0; }
-	if (blue && blockID == 14.0){ blockOffset = 15.0; }
-
-	vec4 shiftedPosition = vec4(aPos.x + cameraX, aPos.y + cameraY, aPos.z, 1.0);
+	vec4 shiftedPosition = vec4(aPos.x + cameraX, aPos.y + cameraY, 1.0, 1.0);
 	gl_Position = shiftedPosition;
-	//float xDist = sin(1 - abs(shiftedPosition.x));
-	//float yDist = sin(1 - abs(shiftedPosition.y));
-	float xDist = abs(shiftedPosition.x);
-	float yDist = abs(shiftedPosition.y);
-	float lV = 1.2 - sqrt(xDist * xDist + yDist * yDist);
-	lightVal = lV;
-	//float lV = ((xDist + yDist) / 1.5);
-	Color = colorMultiplier * lightVal;
-	TexCoord = vec2(aTexCoord.x, (aTexCoord.y / 32) + (1 - (blockOffset / 32)));
+	TexCoord = aTexCoord;
 }
