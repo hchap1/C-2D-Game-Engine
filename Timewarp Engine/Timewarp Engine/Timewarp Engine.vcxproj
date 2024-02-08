@@ -138,6 +138,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="loadTilemap.cpp" />
     <ClCompile Include="testing.cpp" />
+    <ClCompile Include="tilemapPhysics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -156,6 +157,7 @@
     <ClInclude Include="include\TIMEWARP ENGINE\newRenderer.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\player.h" />
     <ClInclude Include="include\TIMEWARP ENGINE\renderer.h" />
+    <ClInclude Include="include\TIMEWARP ENGINE\tilemapPhysics.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\shaders\outline_fragment_shader.txt" />

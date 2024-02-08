@@ -418,17 +418,7 @@ int gameMain(int levelID) {
 		//tilemap[indexOfFirstBlockY][tempIndexPlus] = 0.4f;
 		//updateTilemap(tilemap);
 		//Blocks closer to your head.
-		if (doCollide(blockType, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed) || doCollide(blockType2, redButtonIsPressed, greenButtonIsPressed, blueButtonIsPressed)) {
-			if (playerYVelocity < 0) {
-				float targetY = (indexOfFirstBlockY)*blockY * -1;
-				
-				if (targetY - playerY < blockY / 2) {
-					playerY = targetY;
-					playerYVelocity = 0.0f;
-					if (!dashing) { grounded = true; }
-				}
-			}
-		}
+		 
 		if (grounded) {
 			canWallJump = false;
 			canDoubleJump = true;
@@ -516,7 +506,7 @@ int gameMain(int levelID) {
 		}
 
 		blockType = tilemap[indexOfFirstBlockY - 1][indexOfFirstBlockX - 1];
-		//parseSpecialBlocks(blockType, tile_shader, player_shader, parallax_shader);
+		//parseSpecialBlock s(blockType, tile_shader, player_shader, parallax_shader);
 
 		
 

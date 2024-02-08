@@ -42,6 +42,9 @@
     <ClCompile Include="newGameloop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tilemapPhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TIMEWARP ENGINE\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TIMEWARP ENGINE\tilemapPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
