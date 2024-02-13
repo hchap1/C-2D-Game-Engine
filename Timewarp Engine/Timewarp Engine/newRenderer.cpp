@@ -112,10 +112,10 @@ tuple<float*, int> gameStateDecoder(GameState gameState, Renderer renderer) {
         nFBY = blockHeight * -1.0f + yPos;
         pFBY = blockHeight + yPos;
 
-        bot = 0.0f;
-        top = 0.5f;
+        bot = 0.5f;
+        top = 1.0f;
 
-        if (isCrouching) { top += 0.25f; bot += 0.5f; }
+        if (isCrouching) { bot += 0.25f; }
         numTriangles += 2;
         if (isCrouching) { nFBY += blockHeight; }
 
@@ -155,7 +155,7 @@ tuple<float*, int> gameStateDecoder(GameState gameState, Renderer renderer) {
 }
 
 RenderLayer::RenderLayer() {}
-RenderLayer::RenderLayer(std::vector<int> attributes, std::string shaderName, std::string textureName) {
+RenderLayer::RenderLayer(std::vector<int> attributes, std::string shaderName, std::string textureName, bool flipImageOnLoad) {
     //Create & bind buffers
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -179,6 +179,7 @@ RenderLayer::RenderLayer(std::vector<int> attributes, std::string shaderName, st
     glBindTexture(GL_TEXTURE_2D, texture);
 
     //Set filtering options (pixel art)
+    stbi_set_flip_vertically_on_load(flipImageOnLoad);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);

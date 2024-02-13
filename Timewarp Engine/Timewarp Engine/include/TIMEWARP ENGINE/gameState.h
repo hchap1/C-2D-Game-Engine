@@ -26,6 +26,10 @@ public:
 	vector<float> getXPositions() { return xPositions; }
 	vector<float> getYPositions() { return yPositions; }
 	vector<bool> getCrouchStates() { return crouchStates; }
+	vector<bool> getButtonStates() {
+		vector<bool> buttonStates = { redButton, greenButton, blueButton };
+		return buttonStates;
+	}
 	bool getRedButton() { return redButton; }
 	bool getGreenButton() { return greenButton; }
 	bool getBlueButton() { return blueButton; }

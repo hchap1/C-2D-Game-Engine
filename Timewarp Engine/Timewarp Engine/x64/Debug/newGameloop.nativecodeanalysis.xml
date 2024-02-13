@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\SHADER CLASS\</FILEPATH>
+      <FILENAME>shader.h</FILENAME>
+      <LINE>18</LINE>
+      <COLUMN>4</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Shader::ID' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Shader::{ctor}</FUNCTION>
+    <DECORATED>??0Shader@@QEAA@XZ</DECORATED>
+    <FUNCLINE>18</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Shader::ID</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>gameState.h</FILENAME>
+      <LINE>7</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'GameState::greenButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>GameState::{ctor}</FUNCTION>
+    <DECORATED>??0GameState@@QEAA@XZ</DECORATED>
+    <FUNCLINE>7</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>GameState::greenButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>gameState.h</FILENAME>
+      <LINE>7</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'GameState::blueButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>GameState::{ctor}</FUNCTION>
+    <DECORATED>??0GameState@@QEAA@XZ</DECORATED>
+    <FUNCLINE>7</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>GameState::blueButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>gameState.h</FILENAME>
+      <LINE>7</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'GameState::redButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>GameState::{ctor}</FUNCTION>
+    <DECORATED>??0GameState@@QEAA@XZ</DECORATED>
+    <FUNCLINE>7</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>GameState::redButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::startX' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::startX</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::yVelocity' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::yVelocity</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::redButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::redButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::canDoubleJump' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::canDoubleJump</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::blueButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::blueButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::isCrouching' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::isCrouching</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::canDash' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::canDash</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::isDashing' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::isDashing</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::xVelocity' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::xVelocity</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::startY' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::startY</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::dashDirection' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::dashDirection</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::isGrounded' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::isGrounded</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::dashEnd' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::dashEnd</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::onWall' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::onWall</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::x' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::x</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::y' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::y</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::canWallJump' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::canWallJump</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::spacePressed' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::spacePressed</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::apostrophePressed' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::apostrophePressed</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>10</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::greenButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@XZ</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::greenButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>player.h</FILENAME>
+      <LINE>11</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Player::dashEnd' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Player::{ctor}</FUNCTION>
+    <DECORATED>??0Player@@QEAA@MM@Z</DECORATED>
+    <FUNCLINE>11</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Player::dashEnd</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

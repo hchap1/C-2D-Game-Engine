@@ -8,7 +8,7 @@ uniform float cameraX;
 uniform float cameraY;
 
 void main(){
-	vec4 shiftedPosition = vec4(aPos.x - cameraX, aPos.y - cameraY, 1.0, 1.0);
+	vec4 shiftedPosition = vec4(cameraX - aPos.x, cameraY - aPos.y, 1.0, 1.0);
 	gl_Position = shiftedPosition;
 	TexCoord = aTexCoord;
 }

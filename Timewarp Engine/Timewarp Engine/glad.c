@@ -1130,7 +1130,7 @@ int gladLoadGLLoader(GLADloadproc load) {
 	load_GL_VERSION_2_0(load);
 	load_GL_VERSION_2_1(load);
 	load_GL_VERSION_3_0(load);
-	load_GL_VERSION_3_1(load);
+	load_GL_VERSION_3_1(load);	
 	load_GL_VERSION_3_2(load);
 	load_GL_VERSION_3_3(load);
 

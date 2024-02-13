@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\STB\</FILEPATH>
+      <FILENAME>stb_image.h</FILENAME>
+      <LINE>7067</LINE>
+      <COLUMN>13</COLUMN>
+    </SFA>
+    <DEFECTCODE>6262</DEFECTCODE>
+    <DESCRIPTION>Function uses '35036' bytes of stack.  Consider moving some data to heap.</DESCRIPTION>
+    <FUNCTION>stbi__load_gif_main</FUNCTION>
+    <DECORATED>?stbi__load_gif_main@@YAPEAXPEAUstbi__context@@PEAPEAHPEAH222H@Z</DECORATED>
+    <FUNCLINE>7067</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\STB\</FILEPATH>
+      <FILENAME>stb_image.h</FILENAME>
+      <LINE>7154</LINE>
+      <COLUMN>13</COLUMN>
+    </SFA>
+    <DEFECTCODE>6262</DEFECTCODE>
+    <DESCRIPTION>Function uses '34980' bytes of stack.  Consider moving some data to heap.</DESCRIPTION>
+    <FUNCTION>stbi__gif_load</FUNCTION>
+    <DECORATED>?stbi__gif_load@@YAPEAXPEAUstbi__context@@PEAH11HPEAUstbi__result_info@@@Z</DECORATED>
+    <FUNCLINE>7154</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\SHADER CLASS\</FILEPATH>
+      <FILENAME>shader.h</FILENAME>
+      <LINE>18</LINE>
+      <COLUMN>4</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'Shader::ID' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>Shader::{ctor}</FUNCTION>
+    <DECORATED>??0Shader@@QEAA@XZ</DECORATED>
+    <FUNCLINE>18</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>Shader::ID</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>gameState.h</FILENAME>
+      <LINE>7</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'GameState::blueButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>GameState::{ctor}</FUNCTION>
+    <DECORATED>??0GameState@@QEAA@XZ</DECORATED>
+    <FUNCLINE>7</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>GameState::blueButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>gameState.h</FILENAME>
+      <LINE>7</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'GameState::greenButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>GameState::{ctor}</FUNCTION>
+    <DECORATED>??0GameState@@QEAA@XZ</DECORATED>
+    <FUNCLINE>7</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>GameState::greenButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\include\TIMEWARP ENGINE\</FILEPATH>
+      <FILENAME>gameState.h</FILENAME>
+      <LINE>7</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'GameState::redButton' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>GameState::{ctor}</FUNCTION>
+    <DECORATED>??0GameState@@QEAA@XZ</DECORATED>
+    <FUNCLINE>7</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>GameState::redButton</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+      <FILENAME>newRenderer.cpp</FILENAME>
+      <LINE>41</LINE>
+      <COLUMN>36</COLUMN>
+    </SFA>
+    <DEFECTCODE>6386</DEFECTCODE>
+    <DESCRIPTION>Buffer overrun while writing to 'vertexData'.</DESCRIPTION>
+    <FUNCTION>tilemapDecoder</FUNCTION>
+    <DECORATED>?tilemapDecoder@@YA?AV?$tuple@PEAMH@std@@V?$vector@V?$vector@HV?$allocator@H@std@@@std@@V?$allocator@V?$vector@HV?$allocator@H@std@@@std@@@2@@2@HHH@Z</DECORATED>
+    <FUNCLINE>16</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>16</LINE>
+        <COLUMN>54</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>17</LINE>
+        <COLUMN>8</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>19</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>20</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>21</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>22</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>24</LINE>
+        <COLUMN>11</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>25</LINE>
+        <COLUMN>27</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>29</LINE>
+        <COLUMN>11</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>'vertexData' is a 0 byte array</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>30</LINE>
+        <COLUMN>8</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>31</LINE>
+        <COLUMN>8</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>33</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>33</LINE>
+        <COLUMN>32</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Enter this loop, (assume 'height&lt;tilemap.size()')</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>34</LINE>
+        <COLUMN>17</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>34</LINE>
+        <COLUMN>34</COLUMN>
+        <KEYEVENT>
+          <ID>3</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Enter this loop, (assume 'width&lt;tilemap[](0)-&gt;size()')</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>35</LINE>
+        <COLUMN>21</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>36</LINE>
+        <COLUMN>20</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>37</LINE>
+        <COLUMN>25</COLUMN>
+        <KEYEVENT>
+          <ID>4</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Enter this branch, (assume 'tileType!=0')</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>38</LINE>
+        <COLUMN>31</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>40</LINE>
+        <COLUMN>36</COLUMN>
+        <KEYEVENT>
+          <ID>5</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>'index' may equal 1</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>41</LINE>
+        <COLUMN>36</COLUMN>
+        <KEYEVENT>
+          <ID>6</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>Invalid write to 'vertexData', (outside its writable range)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+      <FILENAME>newRenderer.cpp</FILENAME>
+      <LINE>128</LINE>
+      <COLUMN>26</COLUMN>
+    </SFA>
+    <DEFECTCODE>6386</DEFECTCODE>
+    <DESCRIPTION>Buffer overrun while writing to 'vertices'.</DESCRIPTION>
+    <FUNCTION>gameStateDecoder</FUNCTION>
+    <DECORATED>?gameStateDecoder@@YA?AV?$tuple@PEAMH@std@@VGameState@@VRenderer@@@Z</DECORATED>
+    <FUNCLINE>88</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>88</LINE>
+        <COLUMN>46</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>89</LINE>
+        <COLUMN>18</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>90</LINE>
+        <COLUMN>18</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>91</LINE>
+        <COLUMN>17</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>93</LINE>
+        <COLUMN>8</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>94</LINE>
+        <COLUMN>11</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>95</LINE>
+        <COLUMN>11</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>'vertices' is an array of 4 elements (16 bytes)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>97</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>98</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>10</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>16</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>22</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>28</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>34</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>40</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>46</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>100</LINE>
+        <COLUMN>51</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>101</LINE>
+        <COLUMN>9</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>102</LINE>
+        <COLUMN>8</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>103</LINE>
+        <COLUMN>8</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>105</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>105</LINE>
+        <COLUMN>22</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Enter this loop, (assume 'i&lt;playersToRender')</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>106</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>107</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>108</LINE>
+        <COLUMN>20</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>108</LINE>
+        <COLUMN>36</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>108</LINE>
+        <COLUMN>20</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>110</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>111</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>112</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>113</LINE>
+        <COLUMN>13</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>115</LINE>
+        <COLUMN>12</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>116</LINE>
+        <COLUMN>12</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>118</LINE>
+        <COLUMN>12</COLUMN>
+        <KEYEVENT>
+          <ID>3</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Skip this branch, (assume 'isCrouching' is false)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>119</LINE>
+        <COLUMN>21</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>120</LINE>
+        <COLUMN>12</COLUMN>
+        <KEYEVENT>
+          <ID>4</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Skip this branch, (assume 'isCrouching' is false)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>123</LINE>
+        <COLUMN>26</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>124</LINE>
+        <COLUMN>26</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>125</LINE>
+        <COLUMN>26</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>126</LINE>
+        <COLUMN>26</COLUMN>
+        <KEYEVENT>
+          <ID>5</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>'index' may equal 4</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+        <FILENAME>newRenderer.cpp</FILENAME>
+        <LINE>128</LINE>
+        <COLUMN>26</COLUMN>
+        <KEYEVENT>
+          <ID>6</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>Invalid write to 'vertices[4]', (writable range is 0 to 3)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+      <FILENAME>newRenderer.cpp</FILENAME>
+      <LINE>157</LINE>
+      <COLUMN>13</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'RenderLayer::step' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>RenderLayer::{ctor}</FUNCTION>
+    <DECORATED>??0RenderLayer@@QEAA@XZ</DECORATED>
+    <FUNCLINE>157</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>RenderLayer::step</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+      <FILENAME>newRenderer.cpp</FILENAME>
+      <LINE>157</LINE>
+      <COLUMN>13</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'RenderLayer::texture' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>RenderLayer::{ctor}</FUNCTION>
+    <DECORATED>??0RenderLayer@@QEAA@XZ</DECORATED>
+    <FUNCLINE>157</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>RenderLayer::texture</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+      <FILENAME>newRenderer.cpp</FILENAME>
+      <LINE>157</LINE>
+      <COLUMN>13</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'RenderLayer::VAO' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>RenderLayer::{ctor}</FUNCTION>
+    <DECORATED>??0RenderLayer@@QEAA@XZ</DECORATED>
+    <FUNCLINE>157</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>RenderLayer::VAO</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\hchap\source\repos\C-2D-Game-Engine\Timewarp Engine\Timewarp Engine\</FILEPATH>
+      <FILENAME>newRenderer.cpp</FILENAME>
+      <LINE>157</LINE>
+      <COLUMN>13</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'RenderLayer::VBO' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>RenderLayer::{ctor}</FUNCTION>
+    <DECORATED>??0RenderLayer@@QEAA@XZ</DECORATED>
+    <FUNCLINE>157</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>RenderLayer::VBO</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

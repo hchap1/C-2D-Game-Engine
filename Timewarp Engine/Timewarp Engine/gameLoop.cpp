@@ -394,7 +394,7 @@ int gameMain(int levelID) {
 			}
 		}
 
-
+			
 		//Get the block type [float] of the block below your 'right' foot and below your 'left' foot.
 		blockType = tilemap[indexOfFirstBlockY - 2][tempIndexMinus];
 		blockType2 = tilemap[indexOfFirstBlockY - 2][tempIndexPlus];

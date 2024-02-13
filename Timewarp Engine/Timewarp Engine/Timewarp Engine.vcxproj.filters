@@ -56,7 +56,7 @@
     <ClInclude Include="include\GLFW\glfw3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GLFW\glfw3native.h">
+    <ClInclude Include="include\GLFW\glfw3nativeD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\KHR\khrplatform.h">
@@ -90,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TIMEWARP ENGINE\tilemapPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TERMCOLOR\termcolor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

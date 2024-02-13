@@ -14,7 +14,7 @@ tuple<float*, int> tilemapDecoder(vector<vector<int>> tilemap, int tileTextureSi
 class RenderLayer {
 public:
     RenderLayer();
-    RenderLayer(std::vector<int> attributes, std::string shaderName, std::string textureName);
+    RenderLayer(std::vector<int> attributes, std::string shaderName, std::string textureName, bool flipImageOnLoad);
 
     void setVertices(float* vertices, int numTriangles, int numFloatsPerTriangle, unsigned int mode);
     void draw(int numTriangles);

@@ -19,9 +19,16 @@ public:
 		onWall = false;
 		canWallJump = false;
 		canDoubleJump = false;
-		canDash = false;
+		canDash = true;
 		dashDirection = 0;
-		dashing = false;
+		isDashing = false;
+		isCrouching = false;
+		isGrounded = false;
+		spacePressed = 0;
+		apostrophePressed = 0;
+		redButton = false;
+		greenButton = false;
+		blueButton = false;
 	}
 
 	bool getOnWall() { return onWall; }
@@ -30,7 +37,9 @@ public:
 	bool getCanDash() { return canDash; }
 	int getDashDirection() { return dashDirection; }
 	int getDashEnd() { return dashEnd; }
-	bool getDashing() { return dashing; }
+	bool getDashing() { return isDashing; }
+	bool getCrouching() { return isCrouching; }
+	bool setGrounded() { return isGrounded; }
 
 	void setOnWall(bool newOnWall) { onWall = newOnWall; }
 	void setCanWallJump(bool newCanWallJump) { canWallJump = newCanWallJump; }
@@ -38,7 +47,12 @@ public:
 	void setCanDash(bool newCanDash) { canDash = newCanDash; }
 	void setDashDirection(int newDashDirection) { dashDirection = newDashDirection; }
 	void setDashEnd(int newDashEnd) { dashEnd = newDashEnd; }
-	void setDashing(bool newDashing) {}
+	void setDashing(bool newDashing) { isDashing = newDashing; }
+	void setCrouching(bool newCrouching) { isCrouching = newCrouching; }
+	void setGrounded(bool newGrounded) { isGrounded = newGrounded; }
+	void setRedButton(bool newRedButton) { redButton = newRedButton; }
+	void setGreenButton(bool newGreenButton) { greenButton = newGreenButton; }
+	void setBlueButton(bool newBlueButton) { blueButton = newBlueButton; }
 
 	void setStart(float xPosition, float yPosition) {
 		startX = xPosition;
@@ -63,22 +77,72 @@ public:
 		gamestate->addData(x, y, isCrouching, redButton, greenButton, blueButton);
 	}
 
-	void physicsLoop(Renderer* renderer, float deltaTime) {
-		redButton = false;
-		greenButton = false;
-		blueButton = false;
+	void physicsLoop(Renderer* renderer, float deltaTime, int gameTime, vector<bool> buttonStates) {
+		if (buttonStates.size() == 1) {
+			redButton = false;
+			greenButton = false;
+			blueButton = false;
+		}
 
-		float movementMultiplier = deltaTime * 2.0f;
+		else {
+			redButton = buttonStates[0];
+			greenButton = buttonStates[1];
+			blueButton = buttonStates[2];
+		}
+
+		if (renderer->getKeyDown(GLFW_KEY_SPACE)) {	spacePressed += 1; }
+		else { spacePressed = 0; }
+		if (renderer->getKeyDown(GLFW_KEY_APOSTROPHE)) { apostrophePressed += 1; }
+		else { apostrophePressed = 0; }
+
+		float movementMultiplier = deltaTime * 4.0f;
 
 		if (renderer->getKeyDown(GLFW_KEY_D)) {
 			xVelocity -= movementMultiplier;
+			if (!onWall) { dashDirection = -1; }
 		}
 		if (renderer->getKeyDown(GLFW_KEY_A)) {
 			xVelocity += movementMultiplier;
+			if (!onWall) { dashDirection = 1; }
 		}
 
 		xVelocity *= 0.9f;
-		yVelocity += movementMultiplier * 2.0f;
+		yVelocity += movementMultiplier;
+
+		if (spacePressed == 1 && isGrounded && !isDashing) {
+			yVelocity = renderer->getBlockHeight() * -12.0f;
+		}
+
+		if (spacePressed == 1 && onWall && canWallJump && !isGrounded && !isDashing) {
+			yVelocity = renderer->getBlockHeight() * -12.0f;
+			xVelocity = dashDirection * movementMultiplier * 17.0f;
+		}
+
+		if (spacePressed == 1 && canDoubleJump && !isGrounded && !canWallJump && !isDashing) {
+			yVelocity = renderer->getBlockHeight() * -12.0f;
+			canDoubleJump = false;
+			canDash = true;
+		}
+
+		if (apostrophePressed == 1 && canDash && !isDashing && dashEnd < gameTime) {
+			dashEnd = gameTime + 20;
+			canDash = false;
+		}
+		if (dashEnd > gameTime) {
+			isDashing = true;
+		}
+		else {
+			isDashing = false;
+		}
+		if (onWall && yVelocity > 0.0f) {
+			yVelocity *= 0.75f;
+		}
+		if (renderer->getKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+			isCrouching = true;
+		}
+		else { isCrouching = false; }
+		onWall = false;
+		canWallJump = false;
 	}
 
 	void applyXVelocity(float deltaTime) { x += xVelocity * deltaTime; }
@@ -123,5 +187,10 @@ private:
 
 	int dashEnd;
 	int dashDirection;
-	bool dashing;
+
+	bool isGrounded;
+
+	//Key management
+	int spacePressed;
+	int apostrophePressed;
 };
